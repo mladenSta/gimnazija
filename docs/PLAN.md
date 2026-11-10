@@ -88,7 +88,7 @@ Notes:
 | `/?s=term` | Search (WP style) |
 | `/feed/` | RSS (keeps existing subscribers/aggregators working) |
 | `/sitemap.xml` | Sitemap |
-| `/wp-content/uploads/{path}` | Legacy image URLs → served/redirected after the import phase |
+| `/wp-content/uploads/{path}` | Media files, served directly by the web server (old and new) |
 
 - Trailing slashes are kept (WP style); non-slash variants 301 to slash.
 - Unknown paths: check `redirects` table, then 404.
@@ -100,7 +100,7 @@ On upload (admin, images only: jpg, png, webp; max ~15 MB upload):
 1. Auto-rotate by EXIF, strip metadata.
 2. Store a capped "original" (max 2560px long side) — the full camera file is not kept.
 3. Generate WebP variants: `thumb` 400w, `medium` 800w, `large` 1600w, `hero` 1920w (only where the source is large enough).
-4. Store under `storage/app/public/media/{YYYY}/{MM}/`.
+4. Store under `public/wp-content/uploads/{YYYY}/{MM}/` (the `uploads` disk). The WordPress uploads folder is copied there as-is, so old image URLs keep working; new uploads follow the same structure. The folder is not in git.
 5. Public templates use `srcset`/`sizes` + `loading="lazy"` with explicit width/height.
 
 Processing runs in a queued job if uploads get slow; synchronous to start.
@@ -171,6 +171,7 @@ Each phase ends with feature tests (policies, routes, validation) passing.
 - 2026-11-10: Events get optional time, location, label.
 - 2026-11-10: Footer links hardcoded; Menu builder manages the main menu only.
 - 2026-11-10: **MySQL** everywhere, including tests.
+- 2026-11-10: Media lives in `public/wp-content/uploads` (WP folder copied in; new uploads go there too).
 
 ## 10. Still open
 
