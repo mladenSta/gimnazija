@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gimnazija „Jovan Dučić" Doboj</title>
+<meta name="description" content="Gimnazija „Jovan Dučić" Doboj – škola sa najdužom vaspitno-obrazovnom tradicijom u Doboju.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   THEME
+   ========================================================= */
+:root{
+  --teal:#2894ac;
+  --teal-600:#1f7a8e;
+  --teal-100:#e3f3f7;
+  --teal-50:#f2fafc;
+  --plum:#43036e;          /* used sparingly: headings accents, footer, CTA hover */
+  --plum-soft:#f3ecf8;
+  --white:#ffffff;
+  --ink:#1d1f2b;
+  --muted:#5c6375;
+  --line:#e6eaf0;
+  --sun:#ffd166;           /* tiny cheerful highlight, derived accent */
+  --radius:22px;
+  --radius-sm:14px;
+  --shadow:0 10px 30px -12px rgba(30,40,70,.22);
+  --shadow-lg:0 24px 60px -20px rgba(30,40,70,.35);
+  --container:1240px;
+  --font-display:"Bricolage Grotesque", system-ui, sans-serif;
+  --font-body:"DM Sans", system-ui, sans-serif;
+  --font-hand:"Caveat", cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--white);line-height:1.6;font-size:17px;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+.container{width:min(var(--container),100% - 40px);margin-inline:auto}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.1;letter-spacing:-.02em}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.eyebrow::before{content:"";width:22px;height:3px;border-radius:3px;background:var(--teal)}
+.section{padding:110px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:50px;flex-wrap:wrap}
+.section-head h2{font-size:clamp(2rem,4vw,3.2rem);margin-top:10px;max-width:16ch}
+.section-head h2 em{font-style:normal;color:var(--plum);position:relative}
+.section-head p{color:var(--muted);max-width:44ch}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:.95rem;transition:.25s;border:2px solid transparent;cursor:pointer}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-primary:hover{background:var(--plum);transform:translateY(-2px)}
+.btn-ghost{border-color:currentColor}
+.btn-ghost:hover{background:#fff;color:var(--teal)}
+.btn-outline{border-color:var(--teal);color:var(--teal)}
+.btn-outline:hover{background:var(--teal);color:#fff}
+.btn svg{width:18px;height:18px}
+
+/* =========================================================
+   TOP BAR + HEADER / MENU
+   ========================================================= */
+.topbar{background:var(--plum);color:#e9dcf3;font-size:.85rem}
+.topbar .container{display:flex;justify-content:space-between;align-items:center;padding:8px 0;gap:20px}
+.topbar a:hover{color:#fff}
+.topbar .info{display:flex;gap:24px;flex-wrap:wrap}
+.topbar .info span{display:inline-flex;align-items:center;gap:6px}
+.topbar svg{width:15px;height:15px;opacity:.8}
+
+header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:84px;gap:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{width:52px;height:52px;flex:none}
+.brand-text strong{display:block;font-family:var(--font-display);font-size:1.15rem;line-height:1.1}
+.brand-text small{color:var(--muted);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+.menu{display:flex;align-items:center;gap:4px;list-style:none}
+.menu > li{position:relative}
+.menu > li > a{display:flex;align-items:center;gap:5px;padding:10px 14px;border-radius:999px;font-weight:500;transition:.2s}
+.menu > li > a:hover,.menu > li > a.active{background:var(--teal-100);color:var(--teal-600)}
+.menu .caret{width:12px;height:12px;transition:.2s}
+.dropdown{position:absolute;top:calc(100% + 8px);left:0;min-width:230px;background:#fff;border-radius:var(--radius-sm);box-shadow:var(--shadow-lg);padding:10px;list-style:none;opacity:0;visibility:hidden;transform:translateY(8px);transition:.2s}
+.dropdown::before{content:"";position:absolute;inset:-10px 0 auto;height:10px}
+.menu > li:hover .dropdown,.menu > li:focus-within .dropdown{opacity:1;visibility:visible;transform:none}
+.menu > li:hover .caret{transform:rotate(180deg)}
+.dropdown a{display:block;padding:9px 14px;border-radius:10px;font-size:.95rem}
+.dropdown a:hover{background:var(--teal-50);color:var(--teal-600);padding-left:18px}
+.nav-cta{display:flex;align-items:center;gap:10px}
+.burger{display:none;width:46px;height:46px;border-radius:50%;border:0;background:var(--teal-100);cursor:pointer;align-items:center;justify-content:center}
+.burger span,.burger span::before,.burger span::after{display:block;width:20px;height:2px;background:var(--teal-600);border-radius:2px;position:relative;transition:.25s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.nav-open .burger span{background:transparent}
+.nav-open .burger span::before{top:0;transform:rotate(45deg)}
+.nav-open .burger span::after{top:0;transform:rotate(-45deg)}
+
+/* =========================================================
+   HERO SLIDER
+   ========================================================= */
+.hero{position:relative;padding:30px 0 0}
+.slider{position:relative;height:min(78vh,720px);min-height:520px;border-radius:32px;overflow:hidden;isolation:isolate}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;display:flex;align-items:flex-end}
+.slide.active{opacity:1;z-index:1}
+.slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 7s ease}
+.slide.active img{transform:scale(1)}
+.slide::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(18,24,44,.78) 0%,rgba(18,24,44,.35) 50%,rgba(40,148,172,.15) 100%)}
+.slide-content{position:relative;z-index:2;color:#fff;padding:0 60px 90px;max-width:760px}
+.slide-content .tag{display:inline-block;background:rgba(255,255,255,.16);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.35);padding:6px 16px;border-radius:999px;font-size:.85rem;font-weight:500;margin-bottom:20px}
+.slide-content h1{font-size:clamp(2.4rem,5.4vw,4.6rem);font-weight:800;margin-bottom:18px}
+.slide-content h1 .hl{color:#8fe0f1}
+.slide-content p{font-size:1.15rem;opacity:.92;max-width:52ch;margin-bottom:30px}
+.slide-content .actions{display:flex;gap:14px;flex-wrap:wrap}
+.slide-content > *{opacity:0;transform:translateY(24px);transition:.8s ease}
+.slide.active .slide-content > *{opacity:1;transform:none}
+.slide.active .slide-content > *:nth-child(2){transition-delay:.15s}
+.slide.active .slide-content > *:nth-child(3){transition-delay:.3s}
+.slide.active .slide-content > *:nth-child(4){transition-delay:.45s}
+.slider-ui{position:absolute;right:40px;bottom:40px;z-index:5;display:flex;align-items:center;gap:16px}
+.dots{display:flex;gap:8px}
+.dots button{width:10px;height:10px;border-radius:999px;border:0;background:rgba(255,255,255,.5);cursor:pointer;transition:.3s}
+.dots button.active{width:34px;background:#fff}
+.arrow{width:50px;height:50px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);backdrop-filter:blur(6px);color:#fff;cursor:pointer;display:grid;place-items:center;transition:.2s}
+.arrow:hover{background:#fff;color:var(--teal)}
+.arrow svg{width:20px;height:20px}
+.slider-thumbs{position:absolute;right:40px;top:40px;z-index:5;display:flex;flex-direction:column;gap:10px}
+.slider-thumbs img{width:86px;height:64px;object-fit:cover;border-radius:12px;border:3px solid #fff;box-shadow:var(--shadow);transform:rotate(var(--r,0deg))}
+
+/* floating info card overlapping slider */
+.hero-cards{position:relative;z-index:6;margin-top:-56px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:0 40px}
+.hero-card{background:#fff;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-lg);display:flex;gap:16px;align-items:center;transition:.25s}
+.hero-card:hover{transform:translateY(-6px)}
+.hero-card .ico{width:54px;height:54px;flex:none;border-radius:16px;display:grid;place-items:center;background:var(--teal-100);color:var(--teal-600)}
+.hero-card:nth-child(2) .ico{background:var(--plum-soft);color:var(--plum)}
+.hero-card:nth-child(4) .ico{background:#fff4d6;color:#b07d00}
+.hero-card .ico svg{width:26px;height:26px}
+.hero-card strong{display:block;font-family:var(--font-display);font-size:1.05rem}
+.hero-card span{font-size:.88rem;color:var(--muted)}
+
+/* =========================================================
+   PHOTO RIBBON (marquee)
+   ========================================================= */
+.ribbon{padding:90px 0 20px;overflow:hidden}
+.ribbon-track{display:flex;gap:18px;width:max-content;animation:marquee 60s linear infinite}
+.ribbon:hover .ribbon-track{animation-play-state:paused}
+.ribbon-track img{height:220px;width:auto;aspect-ratio:var(--ar,4/3);object-fit:cover;border-radius:18px;transform:rotate(var(--r,0deg));transition:.3s}
+.ribbon-track img:hover{transform:rotate(0) scale(1.04)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.ribbon-caption{text-align:center;font-family:var(--font-hand);font-size:1.9rem;color:var(--teal);margin-top:24px}
+
+/* =========================================================
+   UPIS 2026 BANNER
+   ========================================================= */
+.enroll{padding:70px 0}
+.enroll-box{position:relative;border-radius:32px;background:var(--teal);color:#fff;padding:60px;display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center;overflow:hidden}
+.enroll-box::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:rgba(255,255,255,.08);right:-140px;top:-200px}
+.enroll-box::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:var(--plum);opacity:.55;left:-90px;bottom:-140px}
+.enroll-box > *{position:relative;z-index:1}
+.enroll-box .eyebrow{color:#cdf1f8}.enroll-box .eyebrow::before{background:#cdf1f8}
+.enroll-box h2{font-size:clamp(2rem,4vw,3.3rem);margin:12px 0 18px}
+.enroll-box p{opacity:.92;margin-bottom:28px;max-width:50ch}
+.tracks{display:grid;gap:14px}
+.track{display:flex;align-items:center;gap:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:18px;padding:18px 22px;backdrop-filter:blur(4px);transition:.25s}
+.track:hover{background:#fff;color:var(--ink);transform:translateX(-6px)}
+.track:hover .num{background:var(--teal);color:#fff}
+.track .num{width:46px;height:46px;flex:none;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--teal);font-family:var(--font-display);font-weight:800}
+.track strong{display:block;font-family:var(--font-display);font-size:1.1rem}
+.track span{font-size:.88rem;opacity:.8}
+.enroll .btn-white{background:#fff;color:var(--teal-600)}
+.enroll .btn-white:hover{background:var(--plum);color:#fff}
+
+/* =========================================================
+   NEWS
+   ========================================================= */
+.news{background:var(--teal-50)}
+.news-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:28px}
+.news-main{position:relative;border-radius:var(--radius);overflow:hidden;min-height:540px;display:flex;align-items:flex-end;color:#fff;box-shadow:var(--shadow)}
+.news-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.news-main:hover img{transform:scale(1.05)}
+.news-main::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,20,40,.85),transparent 60%)}
+.news-main .body{position:relative;z-index:1;padding:36px}
+.news-main h3{font-size:2rem;margin:12px 0 10px}
+.news-main p{opacity:.88;max-width:52ch}
+.date-chip{display:inline-flex;align-items:center;gap:6px;background:var(--teal);color:#fff;padding:5px 12px;border-radius:999px;font-size:.8rem;font-weight:700}
+.date-chip.plum{background:var(--plum)}
+.news-list{display:grid;gap:20px}
+.news-item{display:grid;grid-template-columns:150px 1fr;gap:18px;background:#fff;border-radius:var(--radius-sm);padding:12px;box-shadow:0 4px 14px -8px rgba(30,40,70,.18);transition:.25s}
+.news-item:hover{transform:translateX(6px);box-shadow:var(--shadow)}
+.news-item img{width:100%;height:118px;object-fit:cover;border-radius:10px}
+.news-item .meta{font-size:.8rem;color:var(--teal);font-weight:700}
+.news-item h4{font-size:1.1rem;margin:6px 0;line-height:1.25}
+.news-item p{font-size:.9rem;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* =========================================================
+   ABOUT US
+   ========================================================= */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.about-collage{position:relative;height:600px}
+.about-collage img{position:absolute;object-fit:cover;border-radius:24px;box-shadow:var(--shadow-lg)}
+.about-collage .a1{width:62%;height:70%;left:0;top:0}
+.about-collage .a2{width:52%;height:52%;right:0;top:18%;border:8px solid #fff}
+.about-collage .a3{width:44%;height:38%;left:14%;bottom:0;border:8px solid #fff}
+.about-collage .badge{position:absolute;right:6%;bottom:6%;width:150px;height:150px;border-radius:50%;background:var(--plum);color:#fff;display:grid;place-items:center;text-align:center;box-shadow:var(--shadow-lg);animation:spin 26s linear infinite}
+.about-collage .badge > div{animation:spin 26s linear infinite reverse}
+.about-collage .badge strong{display:block;font-family:var(--font-display);font-size:2.4rem;line-height:1}
+.about-collage .badge span{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+.about-collage .badge svg{position:absolute;inset:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.about-text h2{font-size:clamp(2rem,4vw,3.1rem);margin:12px 0 20px}
+.about-text h2 em{font-style:normal;color:var(--teal)}
+.about-text > p{color:var(--muted);margin-bottom:26px}
+.about-links{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:34px}
+.about-links a{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;font-weight:500;transition:.2s}
+.about-links a:hover{border-color:var(--teal);background:var(--teal-50);color:var(--teal-600)}
+.about-links a i{width:34px;height:34px;flex:none;border-radius:10px;display:grid;place-items:center;background:var(--teal-100);color:var(--teal-600);font-style:normal}
+.about-links a i svg{width:18px;height:18px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:80px}
+.stat{text-align:center;padding:30px 16px;border-radius:var(--radius);background:var(--teal-50)}
+.stat:nth-child(even){background:var(--plum-soft)}
+.stat strong{display:block;font-family:var(--font-display);font-size:2.8rem;color:var(--teal-600);line-height:1}
+.stat:nth-child(even) strong{color:var(--plum)}
+.stat span{color:var(--muted);font-size:.92rem}
+
+/* =========================================================
+   FEATURED (Izdvajamo) + SECTIONS (Sekcije)
+   ========================================================= */
+.featured{background:linear-gradient(180deg,#fff 0%,var(--teal-50) 100%)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.feat{position:relative;border-radius:var(--radius);overflow:hidden;background:#fff;box-shadow:var(--shadow);transition:.3s}
+.feat:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
+.feat .img{position:relative;height:250px;overflow:hidden}
+.feat .img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.feat:hover .img img{transform:scale(1.08)}
+.feat .label{position:absolute;top:16px;left:16px;background:#fff;color:var(--teal-600);font-weight:700;font-size:.8rem;padding:6px 12px;border-radius:999px}
+.feat .body{padding:26px}
+.feat h3{font-size:1.4rem;margin-bottom:8px}
+.feat p{color:var(--muted);font-size:.95rem;margin-bottom:16px}
+.more{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--teal)}
+.more svg{width:16px;height:16px;transition:.2s}
+.feat:hover .more svg,.more:hover svg{transform:translateX(4px)}
+
+.clubs{display:flex;gap:14px;flex-wrap:wrap;margin-top:60px;justify-content:center}
+.club{display:flex;align-items:center;gap:12px;padding:8px 22px 8px 8px;background:#fff;border-radius:999px;box-shadow:0 4px 14px -8px rgba(30,40,70,.25);font-weight:700;transition:.25s}
+.club img{width:48px;height:48px;border-radius:50%;object-fit:cover}
+.club:hover{background:var(--teal);color:#fff;transform:translateY(-3px) rotate(-1deg)}
+.club:nth-child(even):hover{background:var(--plum)}
+
+/* =========================================================
+   STUDENTS – about/spotlight
+   ========================================================= */
+.students{position:relative}
+.students-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.student{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:3/4;color:#fff}
+.student img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.student:hover img{transform:scale(1.06)}
+.student::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(40,148,172,.92),rgba(40,148,172,0) 55%)}
+.student:nth-child(even)::after{background:linear-gradient(to top,rgba(67,3,110,.88),rgba(67,3,110,0) 55%)}
+.student .info{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:22px}
+.student .info small{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;opacity:.85}
+.student .info h4{font-size:1.25rem;margin:4px 0}
+.student .info p{font-size:.88rem;opacity:.9;max-height:0;overflow:hidden;transition:max-height .4s}
+.student:hover .info p{max-height:80px}
+.student .award{position:absolute;top:16px;right:16px;z-index:1;width:42px;height:42px;border-radius:50%;background:var(--sun);color:#7a5600;display:grid;place-items:center}
+.student .award svg{width:22px;height:22px}
+
+/* =========================================================
+   GALLERY (polaroid wall + masonry)
+   ========================================================= */
+.gallery{background:var(--teal);color:#fff;position:relative;overflow:hidden}
+.gallery::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.5px,transparent 1.5px);background-size:26px 26px}
+.gallery .container{position:relative}
+.gallery .eyebrow{color:#cdf1f8}.gallery .eyebrow::before{background:#cdf1f8}
+.gallery .section-head h2 em{color:#fff;background:var(--plum);padding:0 .25em;border-radius:10px}
+.gallery .section-head p{color:#e2f5f9}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:34px}
+.filters button{border:1px solid rgba(255,255,255,.45);background:transparent;color:#fff;padding:9px 18px;border-radius:999px;font:inherit;font-weight:500;font-size:.92rem;cursor:pointer;transition:.2s}
+.filters button.active,.filters button:hover{background:#fff;color:var(--teal-600)}
+.masonry{columns:4 240px;column-gap:18px}
+.polaroid{break-inside:avoid;margin-bottom:18px;background:#fff;padding:10px 10px 0;border-radius:6px;box-shadow:0 14px 30px -14px rgba(0,0,0,.45);transform:rotate(var(--r,0deg));transition:.3s;cursor:zoom-in;color:var(--ink)}
+.polaroid:hover{transform:rotate(0) scale(1.03);z-index:2;position:relative}
+.polaroid img{width:100%;border-radius:3px}
+.polaroid figcaption{font-family:var(--font-hand);font-size:1.35rem;text-align:center;padding:6px 0 8px;color:var(--plum)}
+.polaroid.hide{display:none}
+.gallery-cta{text-align:center;margin-top:40px}
+.gallery-cta .btn{background:#fff;color:var(--teal-600)}
+.gallery-cta .btn:hover{background:var(--plum);color:#fff}
+
+/* Lightbox */
+.lightbox{position:fixed;inset:0;z-index:100;background:rgba(15,10,30,.92);display:none;align-items:center;justify-content:center;padding:30px}
+.lightbox.open{display:flex}
+.lightbox img{max-height:84vh;max-width:90vw;border-radius:14px;box-shadow:var(--shadow-lg)}
+.lightbox .cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;color:#fff;font-family:var(--font-hand);font-size:1.7rem}
+.lb-btn{position:absolute;width:54px;height:54px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;cursor:pointer;display:grid;place-items:center}
+.lb-btn:hover{background:var(--teal)}
+.lb-btn svg{width:22px;height:22px}
+.lb-close{top:24px;right:24px}.lb-prev{left:24px}.lb-next{right:24px}
+
+/* =========================================================
+   ALUMNI TESTIMONIALS
+   ========================================================= */
+.testi-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+.testi-photo{position:relative}
+.testi-photo img{border-radius:200px 200px 24px 24px;height:560px;width:100%;object-fit:cover;box-shadow:var(--shadow-lg)}
+.testi-photo .note{position:absolute;left:-20px;bottom:40px;background:var(--sun);padding:16px 20px;border-radius:6px;font-family:var(--font-hand);font-size:1.5rem;line-height:1.1;transform:rotate(-5deg);box-shadow:var(--shadow);max-width:210px}
+.testi-cards{display:grid;gap:20px}
+.testi{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px 30px;position:relative;transition:.25s}
+.testi:hover{border-color:var(--teal);box-shadow:var(--shadow)}
+.testi:nth-child(2){margin-left:50px;background:var(--plum-soft);border-color:transparent}
+.testi .q{position:absolute;right:24px;top:10px;font-family:var(--font-display);font-size:5rem;line-height:1;color:var(--teal-100)}
+.testi:nth-child(2) .q{color:#e2d2ee}
+.testi blockquote{font-size:1.04rem;margin-bottom:18px;position:relative}
+.testi .who{display:flex;align-items:center;gap:14px}
+.testi .who img{width:50px;height:50px;border-radius:50%;object-fit:cover}
+.testi .who strong{display:block;font-family:var(--font-display)}
+.testi .who span{font-size:.85rem;color:var(--muted)}
+
+/* =========================================================
+   ANNOUNCEMENTS (Najave)
+   ========================================================= */
+.events{background:var(--teal-50)}
+.events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.event{display:flex;gap:20px;background:#fff;border-radius:var(--radius);padding:24px;box-shadow:0 4px 14px -8px rgba(30,40,70,.18);transition:.25s}
+.event:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.event .cal{flex:none;width:72px;text-align:center;border-radius:16px;overflow:hidden;border:1px solid var(--line);align-self:flex-start}
+.event .cal small{display:block;background:var(--teal);color:#fff;font-size:.75rem;font-weight:700;text-transform:uppercase;padding:4px 0;letter-spacing:.08em}
+.event:nth-child(3n+2) .cal small{background:var(--plum)}
+.event .cal strong{display:block;font-family:var(--font-display);font-size:2rem;padding:6px 0}
+.event .cat{font-size:.78rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.08em}
+.event h4{font-size:1.15rem;margin:4px 0 6px}
+.event p{font-size:.9rem;color:var(--muted)}
+
+/* =========================================================
+   INSTAGRAM-ish strip + CTA
+   ========================================================= */
+.social-strip{display:grid;grid-template-columns:repeat(6,1fr)}
+.social-strip a{position:relative;aspect-ratio:1;overflow:hidden}
+.social-strip img{width:100%;height:100%;object-fit:cover;transition:.5s}
+.social-strip a::after{content:"";position:absolute;inset:0;background:var(--teal);opacity:0;transition:.3s}
+.social-strip a:hover::after{opacity:.55}
+.social-strip a:hover img{transform:scale(1.1)}
+.social-strip .fb{position:absolute;inset:0;z-index:2;display:grid;place-items:center;opacity:0;transition:.3s;color:#fff}
+.social-strip a:hover .fb{opacity:1}
+.social-strip .fb svg{width:34px;height:34px}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+footer{background:var(--plum);color:#d9c8e6;position:relative;padding-top:90px}
+footer::before{content:"";position:absolute;left:0;right:0;top:-1px;height:40px;background:#fff;border-radius:0 0 50% 50% / 0 0 100% 100%}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:60px}
+footer h5{font-family:var(--font-display);color:#fff;font-size:1.1rem;margin-bottom:18px}
+footer .brand-text strong{color:#fff}
+footer .brand-text small{color:#bda5cf}
+footer p{font-size:.93rem;margin:18px 0}
+footer ul{list-style:none;display:grid;gap:10px;font-size:.93rem}
+footer ul a:hover{color:#fff;padding-left:4px}
+footer ul a{transition:.2s}
+.contact-line{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;font-size:.93rem}
+.contact-line svg{width:18px;height:18px;flex:none;margin-top:3px;color:#8fe0f1}
+.socials{display:flex;gap:10px}
+.socials a{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.1);display:grid;place-items:center;transition:.2s}
+.socials a:hover{background:var(--teal);color:#fff}
+.socials svg{width:18px;height:18px}
+.copy{border-top:1px solid rgba(255,255,255,.12);padding:22px 0;font-size:.85rem;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* to-top */
+.to-top{position:fixed;right:22px;bottom:22px;width:50px;height:50px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transition:.3s;z-index:40}
+.to-top.show{opacity:1;visibility:visible}
+.to-top:hover{background:var(--plum)}
+.to-top svg{width:20px;height:20px}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:1100px){
+  .menu{position:fixed;inset:0 0 0 auto;width:min(360px,88vw);background:#fff;flex-direction:column;align-items:stretch;padding:110px 24px 30px;gap:2px;box-shadow:var(--shadow-lg);transform:translateX(100%);transition:transform .35s;overflow-y:auto;z-index:60}
+  .nav-open .menu{transform:none}
+  .dropdown{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;padding:0 0 0 14px;display:none}
+  .menu > li.open .dropdown{display:block}
+  .burger{display:flex;z-index:70;position:relative}
+  .nav-cta .btn{display:none}
+  .hero-cards{grid-template-columns:repeat(2,1fr);padding:0 20px}
+  .feat-grid,.events-grid{grid-template-columns:1fr 1fr}
+  .students-grid{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .slider-thumbs{display:none}
+}
+@media (max-width:860px){
+  .section{padding:80px 0}
+  .news-grid,.about-grid,.enroll-box,.testi-wrap{grid-template-columns:1fr}
+  .enroll-box{padding:40px 28px}
+  .about-collage{height:460px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .testi-photo img{height:420px}
+  .testi:nth-child(2){margin-left:0}
+  .social-strip{grid-template-columns:repeat(3,1fr)}
+  .topbar .info span:nth-child(3){display:none}
+}
+@media (max-width:600px){
+  body{font-size:16px}
+  .slide-content{padding:0 24px 110px}
+  .slider{border-radius:22px;min-height:560px}
+  .slider-ui{right:auto;left:24px;bottom:30px}
+  .hero-cards,.feat-grid,.events-grid,.foot-grid,.about-links{grid-template-columns:1fr}
+  .hero-cards{margin-top:-40px}
+  .news-item{grid-template-columns:110px 1fr}
+  .news-item img{height:96px}
+  .news-main{min-height:420px}
+  .students-grid{gap:12px}
+  .topbar .container{justify-content:center}
+  .topbar .socials-top{display:none}
+  .brand-text small{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ SVG ICON SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-fb" viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V6.6c0-.9.6-1.1 1-1.1h2.6V1.6L14 1.6c-4 0-4.9 3-4.9 4.9v2H6.8v4h2.3V22h4.9v-9.5h3.3l.4-4H14z"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1-5.8 3.1z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M20 17v5H6.5A2.5 2.5 0 0 1 4 19.5"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-feather" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 12.2a6 6 0 0 0-8.5-8.5L5 10.5V19h8.5z"/><path d="M16 8L2 22M17.5 15H9"/></symbol>
+</svg>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="container">
+    <div class="info">
+      <span><svg><use href="#i-pin"/></svg>Hilandarska 2, 74000 Doboj</span>
+      <span><svg><use href="#i-phone"/></svg><a href="tel:053200970">053 200 970</a></span>
+      <span><svg><use href="#i-mail"/></svg><a href="mailto:ss38@skolers.org">ss38@skolers.org</a></span>
+    </div>
+    <div class="socials-top"><a href="https://www.facebook.com/profile.php?id=61573103333031" target="_blank" rel="noopener">Pratite nas na Facebooku →</a></div>
+  </div>
+</div>
+
+<!-- ============ HEADER / MENU ============ -->
+<header class="site" id="top">
+  <div class="container nav">
+    <a href="#" class="brand" aria-label="Početna">
+      <!-- Replace this SVG with the new logo: <img src="img/logo.svg" class="brand-logo" alt="Logo"> -->
+      <svg class="brand-logo" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="#2894ac"/>
+        <path d="M32 14l18 9-18 9-18-9z" fill="#fff"/>
+        <path d="M20 29v9c6 5 18 5 24 0v-9l-12 6z" fill="#43036e"/>
+        <circle cx="48" cy="40" r="2.6" fill="#fff"/><path d="M48 24v16" stroke="#fff" stroke-width="2"/>
+      </svg>
+      <span class="brand-text"><strong>Gimnazija „Jovan Dučić"</strong><small>Doboj · od tradicije ka budućnosti</small></span>
+    </a>
+
+    <ul class="menu" id="menu">
+      <li><a href="#" class="active">Početna</a></li>
+      <li class="has-dd"><a href="#o-nama">O nama <svg class="caret"><use href="#i-down"/></svg></a>
+        <ul class="dropdown">
+          <li><a href="#">Istorijat škole</a></li>
+          <li><a href="#">Upis 2026.</a></li>
+          <li><a href="#">O Jovanu Dučiću</a></li>
+          <li><a href="#">Biblioteka</a></li>
+          <li><a href="#">Misija i vizija</a></li>
+          <li><a href="#">Računarski smjer</a></li>
+        </ul>
+      </li>
+      <li><a href="#vijesti">Vijesti</a></li>
+      <li><a href="#">Koraci</a></li>
+      <li class="has-dd"><a href="#sekcije">Sekcije <svg class="caret"><use href="#i-down"/></svg></a>
+        <ul class="dropdown">
+          <li><a href="#">Dramska sekcija</a></li>
+          <li><a href="#">Istorijska sekcija</a></li>
+          <li><a href="#">Psihološka sekcija</a></li>
+          <li><a href="#">Muzička kultura</a></li>
+          <li><a href="#">Engleski jezik</a></li>
+          <li><a href="#">Kreativna radionica</a></li>
+        </ul>
+      </li>
+      <li><a href="#galerija">Galerija</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+
+    <div class="nav-cta">
+      <a href="#upis" class="btn btn-primary">Upis 2026. <svg><use href="#i-arrow"/></svg></a>
+      <button class="burger" id="burger" aria-label="Meni"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO SLIDER ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="slider" id="slider">
+      <div class="slide active">
+        <img src="https://picsum.photos/seed/gjd-hero1/1800/1000" alt="Učenici ispred škole">
+        <div class="slide-content">
+          <span class="tag">🎓 Najduža tradicija u Doboju</span>
+          <h1>Na pravom ste mjestu. <span class="hl">Dobrodošli!</span></h1>
+          <p>Škola sa najdužom vaspitno-obrazovnom tradicijom u Doboju – mjesto gdje se znanje, prijateljstvo i kreativnost susreću svaki dan.</p>
+          <div class="actions">
+            <a href="#" class="btn btn-primary"><svg><use href="#i-play"/></svg> Pogledajte video</a>
+            <a href="#o-nama" class="btn btn-ghost" style="color:#fff">Upoznajte nas</a>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="https://picsum.photos/seed/gjd-hero2/1800/1000" alt="Dan otvorenih vrata">
+        <div class="slide-content">
+          <span class="tag">📅 Upis 2026.</span>
+          <h1>Gimnazija otvara vrata <span class="hl">novoj generaciji</span></h1>
+          <p>Ove godine upisujemo četiri odjeljenja kroz tri smjera: opšti, društveno-jezički i računarsko-informatički.</p>
+          <div class="actions">
+            <a href="#upis" class="btn btn-primary">Sve o upisu <svg><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="https://picsum.photos/seed/gjd-hero3/1800/1000" alt="Dramska sekcija na sceni">
+        <div class="slide-content">
+          <span class="tag">🎭 Sekcije</span>
+          <h1>Scena, muzika, nauka – <span class="hl">pronađi svoje</span></h1>
+          <p>Dramska, istorijska, psihološka, muzička i jezička sekcija čekaju nove članove i nove ideje.</p>
+          <div class="actions">
+            <a href="#sekcije" class="btn btn-primary">Istraži sekcije <svg><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="https://picsum.photos/seed/gjd-hero4/1800/1000" alt="Učenici na takmičenju">
+        <div class="slide-content">
+          <span class="tag">🏆 Uspjesi</span>
+          <h1>Ponosni na naše <span class="hl">takmičare</span></h1>
+          <p>Svake godine naši učenici donose nagrade sa opštinskih, regionalnih i republičkih takmičenja.</p>
+          <div class="actions">
+            <a href="#ucenici" class="btn btn-primary">Upoznaj ih <svg><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="slider-thumbs" aria-hidden="true">
+        <img src="https://picsum.photos/seed/gjd-t1/200/150" alt="" style="--r:4deg">
+        <img src="https://picsum.photos/seed/gjd-t2/200/150" alt="" style="--r:-3deg">
+        <img src="https://picsum.photos/seed/gjd-t3/200/150" alt="" style="--r:2deg">
+      </div>
+
+      <div class="slider-ui">
+        <button class="arrow" id="prev" aria-label="Prethodni"><svg><use href="#i-left"/></svg></button>
+        <div class="dots" id="dots"></div>
+        <button class="arrow" id="next" aria-label="Sljedeći"><svg><use href="#i-right"/></svg></button>
+      </div>
+    </div>
+
+    <div class="hero-cards">
+      <a href="#upis" class="hero-card"><div class="ico"><svg><use href="#i-cap"/></svg></div><div><strong>Upis 2026.</strong><span>4 odjeljenja, 3 smjera</span></div></a>
+      <a href="#" class="hero-card"><div class="ico"><svg><use href="#i-feather"/></svg></div><div><strong>O Jovanu Dučiću</strong><span>Pjesnik čije ime nosimo</span></div></a>
+      <a href="#" class="hero-card"><div class="ico"><svg><use href="#i-book"/></svg></div><div><strong>Biblioteka</strong><span>Hiljade naslova za vas</span></div></a>
+      <a href="#najave" class="hero-card"><div class="ico"><svg><use href="#i-cal"/></svg></div><div><strong>Najave</strong><span>Šta nas čeka uskoro</span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHOTO RIBBON ============ -->
+<section class="ribbon" aria-label="Fotografije iz školskog života">
+  <div class="ribbon-track" id="ribbon"></div>
+  <p class="ribbon-caption">~ jedan dan u našoj gimnaziji ~</p>
+</section>
+
+<!-- ============ UPIS 2026 ============ -->
+<section class="enroll" id="upis">
+  <div class="container">
+    <div class="enroll-box reveal">
+      <div>
+        <span class="eyebrow">Upis 2026.</span>
+        <h2>Tvoja priča počinje ovdje.</h2>
+        <p>Gimnazija „Jovan Dučić" ove godine upisuje četiri odjeljenja kroz tri smjera. Dođi na Dan otvorenih vrata, upoznaj profesore, učenike i prostor u kom ćeš provesti četiri najljepše godine.</p>
+        <a href="#" class="btn btn-white">Kako se upisati <svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="tracks">
+        <a href="#" class="track"><span class="num">01</span><div><strong>Opšti smjer</strong><span>Široko obrazovanje za sve fakultete</span></div></a>
+        <a href="#" class="track"><span class="num">02</span><div><strong>Društveno-jezički smjer</strong><span>Jezici, istorija, komunikacija</span></div></a>
+        <a href="#" class="track"><span class="num">03</span><div><strong>Računarsko-informatički smjer</strong><span>Programiranje i digitalne vještine</span></div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEWS ============ -->
+<section class="section news" id="vijesti">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Vijesti</span>
+        <h2>Šta je <em>novo</em> u školi</h2>
+      </div>
+      <a href="#" class="btn btn-outline">Sve vijesti <svg><use href="#i-arrow"/></svg></a>
+    </div>
+
+    <div class="news-grid">
+      <a href="#" class="news-main reveal">
+        <img src="https://picsum.photos/seed/gjd-news1/1200/900" alt="Dan otvorenih vrata">
+        <div class="body">
+          <span class="date-chip">06.11.2026.</span>
+          <h3>Dan otvorenih vrata</h3>
+          <p>Budući gimnazijalci i njihovi roditelji obišli su učionice, kabinete i biblioteku, a naši učenici su im pokazali kako izgleda jedan školski dan.</p>
+        </div>
+      </a>
+      <div class="news-list">
+        <a href="#" class="news-item reveal">
+          <img src="https://picsum.photos/seed/gjd-news2/400/300" alt="">
+          <div><div class="meta">30.10.2026.</div><h4>Dan štednje</h4><p>Učenici su kroz radionice i kviz naučili zašto je važno planirati i štedjeti od malih nogu.</p></div>
+        </a>
+        <a href="#" class="news-item reveal">
+          <img src="https://picsum.photos/seed/gjd-news3/400/300" alt="">
+          <div><div class="meta">28.10.2026.</div><h4>25. regionalno takmičenje iz poznavanja Pokreta Crvenog krsta</h4><p>Naša ekipa je sa velikim uspjehom predstavljala školu na jubilarnom regionalnom takmičenju.</p></div>
+        </a>
+        <a href="#" class="news-item reveal">
+          <img src="https://picsum.photos/seed/gjd-news4/400/300" alt="">
+          <div><div class="meta">20.10.2026.</div><h4>Novi broj školskog časopisa je izašao</h4><p>Priče, intervjui, poezija i fotografije – sve što su naši učenici stvarali ovog polugodišta.</p></div>
+        </a>
+        <a href="#" class="news-item reveal">
+          <img src="https://picsum.photos/seed/gjd-news5/400/300" alt="">
+          <div><div class="meta">12.10.2026.</div><h4>Ekskurzija trećih razreda</h4><p>Pet dana putovanja, novih mjesta i uspomena koje se pamte cijeli život.</p></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT US ============ -->
+<section class="section" id="o-nama">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-collage reveal">
+        <img class="a1" src="https://picsum.photos/seed/gjd-about1/800/900" alt="Zgrada škole">
+        <img class="a2" src="https://picsum.photos/seed/gjd-about2/700/600" alt="Čas u učionici">
+        <img class="a3" src="https://picsum.photos/seed/gjd-about3/600/500" alt="Učenici u biblioteci">
+        <div class="badge">
+          <svg viewBox="0 0 150 150"><defs><path id="circ" d="M75,75 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs><text font-size="11" fill="#d9c8e6" letter-spacing="3.2" font-family="DM Sans" font-weight="700"><textPath href="#circ">GIMNAZIJA • JOVAN DUČIĆ • DOBOJ • </textPath></text></svg>
+          <div><strong>100+</strong><span>godina<br>tradicije</span></div>
+        </div>
+      </div>
+
+      <div class="about-text reveal">
+        <span class="eyebrow">O nama</span>
+        <h2>Tradicija koja <em>gleda naprijed</em></h2>
+        <p>Gimnazija „Jovan Dučić" je škola sa najdužom vaspitno-obrazovnom tradicijom u Doboju. Generacije učenika su ovdje stekle znanje, prijatelje za cijeli život i hrabrost da sanjaju veliko. Danas spajamo to nasljeđe sa savremenom nastavom, digitalnim učionicama i bogatim vannastavnim životom.</p>
+        <div class="about-links">
+          <a href="#"><i><svg><use href="#i-history"/></svg></i>Istorijat škole</a>
+          <a href="#"><i><svg><use href="#i-target"/></svg></i>Misija i vizija</a>
+          <a href="#"><i><svg><use href="#i-feather"/></svg></i>O Jovanu Dučiću</a>
+          <a href="#"><i><svg><use href="#i-code"/></svg></i>Računarski smjer</a>
+        </div>
+        <a href="#" class="btn btn-primary">Saznajte više <svg><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Placeholder numbers – replace with real ones -->
+    <div class="stats reveal">
+      <div class="stat"><strong data-count="500">0</strong><span>učenika</span></div>
+      <div class="stat"><strong data-count="50">0</strong><span>profesora</span></div>
+      <div class="stat"><strong data-count="3">0</strong><span>smjera</span></div>
+      <div class="stat"><strong data-count="10">0</strong><span>sekcija i klubova</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURED (Izdvajamo) + SECTIONS ============ -->
+<section class="section featured" id="sekcije">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Izdvajamo</span>
+        <h2>Život van <em>klupe</em></h2>
+      </div>
+      <p>Škola nije samo nastava. Ovo su mjesta gdje naši učenici otkrivaju talente, stvaraju i rastu zajedno.</p>
+    </div>
+
+    <div class="feat-grid">
+      <a href="#" class="feat reveal">
+        <div class="img"><img src="https://picsum.photos/seed/gjd-feat1/800/600" alt="Školski časopis"><span class="label">📖 Časopis</span></div>
+        <div class="body"><h3>Školski časopis</h3><p>Naši mladi novinari, pisci i fotografi pripremaju časopis od prve do posljednje stranice.</p><span class="more">Pročitaj <svg><use href="#i-arrow"/></svg></span></div>
+      </a>
+      <a href="#" class="feat reveal">
+        <div class="img"><img src="https://picsum.photos/seed/gjd-feat2/800/600" alt="Dramska sekcija"><span class="label">🎭 Scena</span></div>
+        <div class="body"><h3>Dramska sekcija</h3><p>Predstave, festivali i aplauzi – scena na kojoj učenici pokazuju hrabrost i talenat.</p><span class="more">Pogledaj <svg><use href="#i-arrow"/></svg></span></div>
+      </a>
+      <a href="#" class="feat reveal">
+        <div class="img"><img src="https://picsum.photos/seed/gjd-feat3/800/600" alt="Takmičenja"><span class="label">🏆 Takmičenja</span></div>
+        <div class="body"><h3>Takmičenja</h3><p>Od matematike do Crvenog krsta – rezultati koji nas čine ponosnim iz godine u godinu.</p><span class="more">Rezultati <svg><use href="#i-arrow"/></svg></span></div>
+      </a>
+    </div>
+
+    <div class="clubs reveal">
+      <a href="#" class="club"><img src="https://picsum.photos/seed/gjd-c1/100/100" alt="">Dramska sekcija</a>
+      <a href="#" class="club"><img src="https://picsum.photos/seed/gjd-c2/100/100" alt="">Istorijska sekcija</a>
+      <a href="#" class="club"><img src="https://picsum.photos/seed/gjd-c3/100/100" alt="">Psihološka sekcija</a>
+      <a href="#" class="club"><img src="https://picsum.photos/seed/gjd-c4/100/100" alt="">Muzička kultura</a>
+      <a href="#" class="club"><img src="https://picsum.photos/seed/gjd-c5/100/100" alt="">Engleski jezik</a>
+      <a href="#" class="club"><img src="https://picsum.photos/seed/gjd-c6/100/100" alt="">Kreativna radionica</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STUDENTS ============ -->
+<section class="section students" id="ucenici">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Naši učenici</span>
+        <h2>Lica koja čine <em>našu školu</em></h2>
+      </div>
+      <p>Takmičari, umjetnici, sportisti i volonteri – upoznajte neke od učenika koji ove godine pomjeraju granice.</p>
+    </div>
+
+    <div class="students-grid">
+      <a href="#" class="student reveal">
+        <span class="award"><svg><use href="#i-star"/></svg></span>
+        <img src="https://picsum.photos/seed/gjd-s1/600/800" alt="">
+        <div class="info"><small>IV razred · opšti smjer</small><h4>Ime Prezime</h4><p>Prvo mjesto na republičkom takmičenju iz matematike.</p></div>
+      </a>
+      <a href="#" class="student reveal">
+        <img src="https://picsum.photos/seed/gjd-s2/600/800" alt="">
+        <div class="info"><small>III razred · društveno-jezički</small><h4>Ime Prezime</h4><p>Glavna uloga u ovogodišnjoj predstavi dramske sekcije.</p></div>
+      </a>
+      <a href="#" class="student reveal">
+        <span class="award"><svg><use href="#i-star"/></svg></span>
+        <img src="https://picsum.photos/seed/gjd-s3/600/800" alt="">
+        <div class="info"><small>II razred · računarski smjer</small><h4>Ime Prezime</h4><p>Autor školske aplikacije za raspored časova.</p></div>
+      </a>
+      <a href="#" class="student reveal">
+        <img src="https://picsum.photos/seed/gjd-s4/600/800" alt="">
+        <div class="info"><small>IV razred · opšti smjer</small><h4>Ime Prezime</h4><p>Volonterka Crvenog krsta i urednica školskog časopisa.</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="section gallery" id="galerija">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Galerija</span>
+        <h2>Uspomene u <em>kadru</em></h2>
+      </div>
+      <p>Ekskurzije, priredbe, takmičenja, maturska veče i obični, lijepi školski dani – kliknite na fotografiju da je uvećate.</p>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="active" data-f="all">Sve</button>
+      <button data-f="nastava">Nastava</button>
+      <button data-f="sekcije">Sekcije</button>
+      <button data-f="ekskurzije">Ekskurzije</button>
+      <button data-f="takmicenja">Takmičenja</button>
+      <button data-f="matura">Matura</button>
+    </div>
+
+    <div class="masonry" id="masonry"></div>
+
+    <div class="gallery-cta"><a href="https://www.facebook.com/profile.php?id=61573103333031" target="_blank" rel="noopener" class="btn">Još fotografija na Facebooku <svg><use href="#i-arrow"/></svg></a></div>
+  </div>
+</section>
+
+<!-- ============ ALUMNI ============ -->
+<section class="section">
+  <div class="container">
+    <div class="testi-wrap">
+      <div class="testi-photo reveal">
+        <img src="https://picsum.photos/seed/gjd-alumni/800/1000" alt="Bivši učenici">
+        <div class="note">„Gimnazija je bila moj drugi dom" ♥</div>
+      </div>
+      <div>
+        <div class="section-head reveal" style="margin-bottom:30px">
+          <div>
+            <span class="eyebrow">Poruke bivših učenika</span>
+            <h2>Šta kažu oni koji su <em>bili ovdje</em></h2>
+          </div>
+        </div>
+        <div class="testi-cards">
+          <div class="testi reveal">
+            <span class="q">“</span>
+            <blockquote>Profesori su me naučili ne samo gradivu, nego i kako da razmišljam svojom glavom. To mi je na fakultetu značilo više od bilo čega drugog.</blockquote>
+            <div class="who"><img src="https://picsum.photos/seed/gjd-a1/120/120" alt=""><div><strong>Ime Prezime</strong><span>Generacija 2015. · ljekarka</span></div></div>
+          </div>
+          <div class="testi reveal">
+            <span class="q">“</span>
+            <blockquote>Dramska sekcija mi je dala hrabrost da stanem pred ljude. Danas to radim svaki dan i uvijek se sjetim naše male scene.</blockquote>
+            <div class="who"><img src="https://picsum.photos/seed/gjd-a2/120/120" alt=""><div><strong>Ime Prezime</strong><span>Generacija 2010. · novinar</span></div></div>
+          </div>
+          <div class="testi reveal">
+            <span class="q">“</span>
+            <blockquote>Najbolji prijatelji, prve ljubavi, prve pobjede. Sve je počelo u ovim hodnicima.</blockquote>
+            <div class="who"><img src="https://picsum.photos/seed/gjd-a3/120/120" alt=""><div><strong>Ime Prezime</strong><span>Generacija 2019. · inženjerka</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANNOUNCEMENTS ============ -->
+<section class="section events" id="najave">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Najave</span>
+        <h2>Uskoro u <em>gimnaziji</em></h2>
+      </div>
+      <a href="#" class="btn btn-outline">Kalendar događaja <svg><use href="#i-arrow"/></svg></a>
+    </div>
+    <div class="events-grid">
+      <div class="event reveal"><div class="cal"><small>Nov</small><strong>18</strong></div><div><span class="cat">Takmičenje</span><h4>Školsko takmičenje iz matematike</h4><p>Kabinet matematike, 12:00</p></div></div>
+      <div class="event reveal"><div class="cal"><small>Nov</small><strong>25</strong></div><div><span class="cat">Sekcije</span><h4>Premijera predstave dramske sekcije</h4><p>Svečana sala, 18:00</p></div></div>
+      <div class="event reveal"><div class="cal"><small>Dec</small><strong>05</strong></div><div><span class="cat">Roditelji</span><h4>Roditeljski sastanci</h4><p>Svi razredi, 17:00</p></div></div>
+      <div class="event reveal"><div class="cal"><small>Dec</small><strong>12</strong></div><div><span class="cat">Humanitarno</span><h4>Novogodišnji bazar</h4><p>Hol škole, 10:00 – 14:00</p></div></div>
+      <div class="event reveal"><div class="cal"><small>Dec</small><strong>19</strong></div><div><span class="cat">Muzika</span><h4>Zimski koncert</h4><p>Svečana sala, 18:00</p></div></div>
+      <div class="event reveal"><div class="cal"><small>Jan</small><strong>27</strong></div><div><span class="cat">Praznik</span><h4>Školska slava – Sveti Sava</h4><p>Svečana akademija, 11:00</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOCIAL STRIP ============ -->
+<section class="social-strip" aria-label="Facebook fotografije" id="social"></section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer id="kontakt">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a href="#" class="brand">
+          <svg class="brand-logo" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#fff"/><path d="M32 14l18 9-18 9-18-9z" fill="#2894ac"/><path d="M20 29v9c6 5 18 5 24 0v-9l-12 6z" fill="#43036e"/></svg>
+          <span class="brand-text"><strong>Gimnazija „Jovan Dučić"</strong><small>Doboj</small></span>
+        </a>
+        <p>Ove godine upisujemo četiri odjeljenja kroz tri smjera: opšti, društveno-jezički i računarsko-informatički. Dobrodošli u našu porodicu!</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/profile.php?id=61573103333031" target="_blank" rel="noopener" aria-label="Facebook"><svg><use href="#i-fb"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg><use href="#i-yt"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h5>O školi</h5>
+        <ul>
+          <li><a href="#">Istorijat škole</a></li>
+          <li><a href="#">Upis 2026.</a></li>
+          <li><a href="#">Koraci</a></li>
+          <li><a href="#">Biblioteka</a></li>
+          <li><a href="#">Misija i vizija</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Sekcije</h5>
+        <ul>
+          <li><a href="#">Dramska sekcija</a></li>
+          <li><a href="#">Psihološka sekcija</a></li>
+          <li><a href="#">Muzička kultura</a></li>
+          <li><a href="#">Kreativna radionica</a></li>
+          <li><a href="#">Engleski jezik</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Kontakt</h5>
+        <div class="contact-line"><svg><use href="#i-pin"/></svg><span>Hilandarska 2<br>74000 Doboj</span></div>
+        <div class="contact-line"><svg><use href="#i-phone"/></svg><a href="tel:053200970">053 200 970</a></div>
+        <div class="contact-line"><svg><use href="#i-mail"/></svg><a href="mailto:ss38@skolers.org">ss38@skolers.org</a></div>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© <span id="year">2026</span> JU Gimnazija „Jovan Dučić" Doboj. Sva prava zadržana.</span>
+      <span>Napravljeno sa ♥ za naše učenike</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#top" class="to-top" id="toTop" aria-label="Na vrh"><svg><use href="#i-up"/></svg></a>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Zatvori"><svg><use href="#i-close"/></svg></button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Prethodna"><svg><use href="#i-left"/></svg></button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Sljedeća"><svg><use href="#i-right"/></svg></button>
+  <div class="cap" id="lbCap"></div>
+</div>
+
+<script>
+/* ---------- Placeholder photos (picsum). Replace src with real school photos. ---------- */
+const P = (seed,w,h)=>`https://picsum.photos/seed/gjd-${seed}/${w}/${h}`;
+
+/* Photo ribbon */
+(function(){
+  const t = document.getElementById('ribbon');
+  const ars = ['4/3','3/4','1/1','16/10','4/5'];
+  let html='';
+  for(let i=1;i<=14;i++){
+    const ar = ars[i%ars.length], r = ((i%5)-2)*1.4;
+    html += `<img src="${P('rib'+i,600,500)}" alt="" style="--ar:${ar};--r:${r}deg" loading="lazy">`;
+  }
+  t.innerHTML = html + html; // duplicate for seamless loop
+})();
+
+/* Gallery */
+const galleryData = [
+  ['nastava','Čas hemije',3,4],['ekskurzije','Ekskurzija – Grčka',4,3],['sekcije','Proba hora',1,1],
+  ['takmicenja','Regionalno takmičenje',4,5],['matura','Maturska veče',3,4],['nastava','Laboratorija',4,3],
+  ['sekcije','Dramska sekcija',4,3],['ekskurzije','Na putu',3,4],['takmicenja','Prvo mjesto!',1,1],
+  ['matura','Generacija 2026',4,3],['nastava','Biblioteka',3,4],['sekcije','Kreativna radionica',4,5],
+  ['ekskurzije','Stari grad',4,3],['takmicenja','Sportski dan',3,4],['nastava','Informatika',4,3],
+  ['matura','Posljednje zvono',1,1]
+];
+(function(){
+  const m = document.getElementById('masonry');
+  m.innerHTML = galleryData.map((g,i)=>{
+    const w=600, h=Math.round(w*g[3]/g[2]); const r=((i*7)%5-2)*0.9;
+    return `<figure class="polaroid" data-cat="${g[0]}" data-i="${i}" style="--r:${r}deg">
+      <img src="${P('gal'+i,w,h)}" data-full="${P('gal'+i,w*2,h*2)}" alt="${g[1]}" loading="lazy">
+      <figcaption>${g[1]}</figcaption></figure>`;
+  }).join('');
+
+  document.getElementById('filters').addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('active',x===b));
+    const f=b.dataset.f;
+    m.querySelectorAll('.polaroid').forEach(p=>p.classList.toggle('hide',f!=='all'&&p.dataset.cat!==f));
+  });
+
+  // Lightbox
+  const lb=document.getElementById('lightbox'), img=document.getElementById('lbImg'), cap=document.getElementById('lbCap');
+  let cur=0;
+  const visible=()=>[...m.querySelectorAll('.polaroid:not(.hide)')];
+  const show=i=>{const v=visible(); cur=(i+v.length)%v.length; const el=v[cur].querySelector('img'); img.src=el.dataset.full; img.alt=el.alt; cap.textContent=el.alt;};
+  m.addEventListener('click',e=>{const p=e.target.closest('.polaroid'); if(!p) return; show(visible().indexOf(p)); lb.classList.add('open');});
+  document.getElementById('lbClose').onclick=()=>lb.classList.remove('open');
+  document.getElementById('lbPrev').onclick=()=>show(cur-1);
+  document.getElementById('lbNext').onclick=()=>show(cur+1);
+  lb.addEventListener('click',e=>{if(e.target===lb) lb.classList.remove('open');});
+  document.addEventListener('keydown',e=>{
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape') lb.classList.remove('open');
+    if(e.key==='ArrowLeft') show(cur-1);
+    if(e.key==='ArrowRight') show(cur+1);
+  });
+})();
+
+/* Social strip */
+(function(){
+  const s=document.getElementById('social'); let h='';
+  for(let i=1;i<=6;i++) h+=`<a href="https://www.facebook.com/profile.php?id=61573103333031" target="_blank" rel="noopener"><img src="${P('fb'+i,500,500)}" alt="" loading="lazy"><span class="fb"><svg><use href="#i-fb"/></svg></span></a>`;
+  s.innerHTML=h;
+})();
+
+/* Hero slider */
+(function(){
+  const slides=[...document.querySelectorAll('.slide')], dots=document.getElementById('dots');
+  let i=0, timer;
+  slides.forEach((_,k)=>{const b=document.createElement('button'); b.setAttribute('aria-label','Slajd '+(k+1)); b.onclick=()=>go(k,true); dots.appendChild(b);});
+  const go=(n,user)=>{
+    slides[i].classList.remove('active'); dots.children[i].classList.remove('active');
+    i=(n+slides.length)%slides.length;
+    slides[i].classList.add('active'); dots.children[i].classList.add('active');
+    if(user) restart();
+  };
+  const restart=()=>{clearInterval(timer); timer=setInterval(()=>go(i+1),6500);};
+  document.getElementById('prev').onclick=()=>go(i-1,true);
+  document.getElementById('next').onclick=()=>go(i+1,true);
+  dots.children[0].classList.add('active'); restart();
+  // swipe
+  let x0=null; const sl=document.getElementById('slider');
+  sl.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+  sl.addEventListener('touchend',e=>{if(x0===null) return; const d=e.changedTouches[0].clientX-x0; if(Math.abs(d)>50) go(i+(d<0?1:-1),true); x0=null;});
+})();
+
+/* Mobile menu */
+(function(){
+  const burger=document.getElementById('burger');
+  burger.onclick=()=>document.body.classList.toggle('nav-open');
+  document.querySelectorAll('.has-dd > a').forEach(a=>a.addEventListener('click',e=>{
+    if(window.innerWidth<=1100){e.preventDefault(); a.parentElement.classList.toggle('open');}
+  }));
+  document.querySelectorAll('.menu a:not(.has-dd > a)').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));
+})();
+
+/* Reveal + counters + to-top */
+(function(){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    e.target.classList.add('in');
+    e.target.querySelectorAll('[data-count]').forEach(el=>{
+      const end=+el.dataset.count; let n=0; const step=Math.max(1,Math.ceil(end/40));
+      const t=setInterval(()=>{n+=step; if(n>=end){n=end; clearInterval(t);} el.textContent=n+(end>=10?'+':'');},30);
+    });
+    io.unobserve(e.target);
+  }),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  const tt=document.getElementById('toTop');
+  addEventListener('scroll',()=>tt.classList.toggle('show',scrollY>700),{passive:true});
+  document.getElementById('year').textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
