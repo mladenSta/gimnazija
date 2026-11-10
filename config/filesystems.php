@@ -47,6 +47,17 @@ return [
             'report' => false,
         ],
 
+        // Media library. Mirrors the WordPress uploads folder so existing
+        // /wp-content/uploads/YYYY/MM/file URLs keep working (SEO).
+        'uploads' => [
+            'driver' => 'local',
+            'root' => public_path('wp-content/uploads'),
+            'url' => rtrim((string) env('APP_URL', 'http://localhost'), '/').'/wp-content/uploads',
+            'visibility' => 'public',
+            'throw' => true,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
