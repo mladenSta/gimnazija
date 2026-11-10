@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
  * @property CarbonImmutable|null $deleted_at
+ * @property-read int|null $menu_items_count
  */
 #[Fillable([
     'user_id', 'title', 'slug', 'content', 'featured_media_id',

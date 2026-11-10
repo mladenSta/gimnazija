@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,16 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::delete('posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
         Route::post('posts/{post}/restore', [PostController::class, 'restore'])->name('posts.restore')->withTrashed();
         Route::delete('posts/{post}/force', [PostController::class, 'forceDelete'])->name('posts.force-delete')->withTrashed();
+
+        // Pages (all roles manage all pages)
+        Route::get('pages', [PageController::class, 'index'])->name('pages.index');
+        Route::get('pages/create', [PageController::class, 'create'])->name('pages.create');
+        Route::post('pages', [PageController::class, 'store'])->name('pages.store');
+        Route::get('pages/{page}/edit', [PageController::class, 'edit'])->name('pages.edit')->withTrashed();
+        Route::put('pages/{page}', [PageController::class, 'update'])->name('pages.update')->withTrashed();
+        Route::delete('pages/{page}', [PageController::class, 'destroy'])->name('pages.destroy');
+        Route::post('pages/{page}/restore', [PageController::class, 'restore'])->name('pages.restore')->withTrashed();
+        Route::delete('pages/{page}/force', [PageController::class, 'forceDelete'])->name('pages.force-delete')->withTrashed();
 
         // Admin only
         Route::middleware('role:admin')->group(function () {

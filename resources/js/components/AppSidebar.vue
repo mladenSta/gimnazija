@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { FolderTree, Images, LayoutGrid, Newspaper } from '@lucide/vue';
+import {
+    FileText,
+    FolderTree,
+    Images,
+    LayoutGrid,
+    Newspaper,
+} from '@lucide/vue';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -17,6 +23,7 @@ import {
 import { dashboard } from '@/routes';
 import { index as categoriesIndex } from '@/routes/admin/categories';
 import { index as mediaIndex } from '@/routes/admin/media';
+import { index as pagesIndex } from '@/routes/admin/pages';
 import { index as postsIndex } from '@/routes/admin/posts';
 import type { NavItem } from '@/types';
 
@@ -30,6 +37,7 @@ const allNavItems: NavItem[] = [
         exact: true,
     },
     { title: 'Objave', href: postsIndex(), icon: Newspaper },
+    { title: 'Stranice', href: pagesIndex(), icon: FileText },
     { title: 'Mediji', href: mediaIndex(), icon: Images },
     {
         title: 'Kategorije',
