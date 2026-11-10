@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * @property int $id
@@ -85,6 +86,25 @@ class Post extends Model
         }
 
         $this->categories()->sync($rows);
+    }
+
+    /**
+     * Public path, WordPress structure: /slug/
+     */
+    public function path(): string
+    {
+        return "/{$this->slug}/";
+    }
+
+    /**
+     * Excerpt, or the beginning of the text.
+     */
+    public function summary(int $length = 160): string
+    {
+        $text = filled($this->excerpt) ? (string) $this->excerpt : strip_tags((string) preg_replace('/<[^>]+>/', ' $0', (string) $this->content));
+        $text = trim((string) preg_replace('/\s+/u', ' ', html_entity_decode($text, ENT_QUOTES | ENT_HTML5)));
+
+        return Str::limit($text, $length);
     }
 
     public function getPrimaryCategoryAttribute(): ?Category

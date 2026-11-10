@@ -186,6 +186,21 @@ function moveToTrash(): void {
                         <span class="pr-3 text-muted-foreground">/</span>
                     </div>
                     <p class="text-xs text-muted-foreground">
+                        <a
+                            v-if="post"
+                            :href="`${siteUrl}/${post.slug}/`"
+                            target="_blank"
+                            rel="noopener"
+                            class="font-medium text-primary underline underline-offset-2"
+                        >
+                            {{
+                                post.status === 'published' &&
+                                !post.is_scheduled
+                                    ? 'Pogledaj na sajtu'
+                                    : 'Pregled'
+                            }}
+                        </a>
+                        <span v-if="post"> · </span>
                         {{ permalink }}
                         <span
                             v-if="

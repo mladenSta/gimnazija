@@ -29,6 +29,14 @@ class Category extends Model
     use HasFactory;
 
     /**
+     * Public path, WordPress structure: /category/slug/
+     */
+    public function path(): string
+    {
+        return "/category/{$this->slug}/";
+    }
+
+    /**
      * @return BelongsTo<Category, $this>
      */
     public function parent(): BelongsTo

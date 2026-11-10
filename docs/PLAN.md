@@ -139,13 +139,13 @@ Home page sections and data source:
 |---|---|
 | Hero slider | Home slider gallery (photo, focal point, badge, title, subtitle, button) |
 | Hero cards, Upis 2026 block, O nama + stats, Izdvajamo, Sekcije pills | Hardcoded Blade for now |
-| Photo ribbon | Home top gallery |
+| Photo ribbon | Home top gallery (also: first 3 photos = "O nama" collage, 4th = alumni photo) |
 | Vijesti | 5 latest published posts |
 | Naši učenici | Removed from the design |
 | Galerija (masonry + tag filters + lightbox) | Home bottom gallery, filter buttons = tags used in it |
 | Poruke bivših učenika | Alumni testimonials |
 | Najave | Upcoming events |
-| Social strip | Hardcoded / placeholder |
+| Social strip | Last 6 photos of the Home bottom gallery (shown only when there are 6+) |
 
 Other templates: post (title, date, featured image, content, gallery + lightbox, category link, breadcrumb, latest news sidebar), page (same, no category), news/category archive (paginated), search results, 404.
 
@@ -172,6 +172,8 @@ Each phase ends with feature tests (policies, routes, validation) passing.
 - 2026-11-10: Footer links hardcoded; Menu builder manages the main menu only.
 - 2026-11-10: **MySQL** everywhere, including tests.
 - 2026-11-10: Media lives in `public/wp-content/uploads` (WP folder copied in; new uploads go there too).
+- 2026-11-10: Public site built (Blade). "Izdvajamo" cards use optional photos from `public/images/izdvajamo/{casopis,dramska,takmicenja}.jpg` (emoji placeholder until added). Stats numbers are placeholders.
+- 2026-11-10: Laravel's "remove trailing slash" rule removed from `public/.htaccess`; the app 301s `/slug` → `/slug/` (EnsureTrailingSlash).
 
 ## 10. Still open
 

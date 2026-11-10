@@ -111,6 +111,15 @@ class PostAndPageTest extends TestCase
         $this->assertSame(0, DB::table('mediables')->count());
     }
 
+    public function test_summary_keeps_words_apart_across_html_blocks(): void
+    {
+        $post = Post::factory()->make(['excerpt' => null, 'content' => '<p>Prvi pasus.</p><h2>Naslov</h2><ul><li>Ana</li><li>Marko</li></ul>']);
+        $this->assertSame('Prvi pasus. Naslov Ana Marko', $post->summary());
+
+        $post->excerpt = 'Ručno upisan opis';
+        $this->assertSame('Ručno upisan opis', $post->summary());
+    }
+
     public function test_featured_image_relation(): void
     {
         $media = Media::factory()->create();

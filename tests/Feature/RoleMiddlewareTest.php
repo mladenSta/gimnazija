@@ -64,6 +64,10 @@ class RoleMiddlewareTest extends TestCase
     public function test_public_registration_is_disabled(): void
     {
         $this->get('/register')->assertNotFound();
-        $this->post('/register', [])->assertNotFound();
+
+        // No POST route exists; the public site's GET-only fallback answers 405.
+        $this->post('/register', ['name' => 'X', 'email' => 'x@example.com', 'password' => 'password', 'password_confirmation' => 'password'])
+            ->assertStatus(405);
+        $this->assertDatabaseMissing('users', ['email' => 'x@example.com']);
     }
 }

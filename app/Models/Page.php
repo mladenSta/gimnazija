@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * @property int $id
@@ -57,6 +58,21 @@ class Page extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Public path, WordPress structure: /slug/
+     */
+    public function path(): string
+    {
+        return "/{$this->slug}/";
+    }
+
+    public function summary(int $length = 160): string
+    {
+        $text = trim((string) preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags((string) preg_replace('/<[^>]+>/', ' $0', (string) $this->content)), ENT_QUOTES | ENT_HTML5)));
+
+        return Str::limit($text, $length);
     }
 
     /**

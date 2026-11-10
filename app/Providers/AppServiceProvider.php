@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Page;
 use App\Models\Post;
 use App\Models\User;
+use App\Support\SiteMenu;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -29,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+
+        SiteMenu::registerCacheInvalidation();
     }
 
     /**
