@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import { Images, LayoutGrid } from '@lucide/vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import { FolderTree, Images, LayoutGrid, Newspaper } from '@lucide/vue';
+import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
@@ -14,21 +15,35 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as categoriesIndex } from '@/routes/admin/categories';
 import { index as mediaIndex } from '@/routes/admin/media';
+import { index as postsIndex } from '@/routes/admin/posts';
 import type { NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
+const page = usePage();
+
+const allNavItems: NavItem[] = [
     {
         title: 'Kontrolna tabla',
         href: dashboard(),
         icon: LayoutGrid,
+        exact: true,
     },
+    { title: 'Objave', href: postsIndex(), icon: Newspaper },
+    { title: 'Mediji', href: mediaIndex(), icon: Images },
     {
-        title: 'Mediji',
-        href: mediaIndex(),
-        icon: Images,
+        title: 'Kategorije',
+        href: categoriesIndex(),
+        icon: FolderTree,
+        roles: ['admin'],
     },
 ];
+
+const mainNavItems = computed(() =>
+    allNavItems.filter(
+        (item) => !item.roles || item.roles.includes(page.props.auth.user.role),
+    ),
+);
 </script>
 
 <template>

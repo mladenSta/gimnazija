@@ -28,7 +28,7 @@ export function recommendedHint(size: RecommendedSize): string {
         return `Preporučeno: ${size.width} × ${size.height} px`;
     }
 
-    return `Preporučeno: najmanje ${size.width ?? size.min_width} px po dužoj strani`;
+    return `Preporučeno: ${size.width ?? size.min_width} px po dužoj strani`;
 }
 
 /**

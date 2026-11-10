@@ -10,6 +10,7 @@ use App\Http\Resources\MediaResource;
 use App\Models\Media;
 use App\Services\Media\ImageUploader;
 use App\Services\Media\MediaDeleter;
+use App\Support\UploadSettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ class MediaController extends Controller
         return Inertia::render('admin/media/Index', [
             'media' => MediaResource::collection($this->query($search)->paginate(self::PER_PAGE)->withQueryString()),
             'filters' => ['search' => $search],
-            'upload' => $this->uploadSettings(),
+            'upload' => UploadSettings::toArray(),
         ]);
     }
 
@@ -99,17 +100,5 @@ class MediaController extends Controller
                 });
             })
             ->latest('id');
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private function uploadSettings(): array
-    {
-        return [
-            'maxKb' => config('cms.images.max_upload_kb'),
-            'accept' => 'image/jpeg,image/png,image/webp',
-            'recommended' => config('cms.images.recommended'),
-        ];
     }
 }

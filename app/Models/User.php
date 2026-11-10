@@ -81,6 +81,14 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
         return in_array($this->role, $roles, true);
     }
 
+    /**
+     * Admins and editors work with everyone's posts; authors only with their own.
+     */
+    public function canManageAllPosts(): bool
+    {
+        return $this->hasRole(Role::Admin, Role::Editor);
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === Role::Admin;

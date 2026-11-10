@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $wp_id
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
+ * @property-read int|null $posts_count
  */
 #[Fillable(['parent_id', 'name', 'slug', 'description', 'wp_id'])]
 class Category extends Model
