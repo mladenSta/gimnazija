@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AlumniTestimonialController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
@@ -48,8 +51,27 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::get('menu', [MenuController::class, 'edit'])->name('menu.edit');
         Route::put('menu', [MenuController::class, 'update'])->name('menu.update');
 
+        // Galleries (all roles; home-page galleries can't be deleted)
+        Route::get('galleries', [GalleryController::class, 'index'])->name('galleries.index');
+        Route::post('galleries', [GalleryController::class, 'store'])->name('galleries.store');
+        Route::get('galleries/{gallery}/edit', [GalleryController::class, 'edit'])->name('galleries.edit');
+        Route::put('galleries/{gallery}', [GalleryController::class, 'update'])->name('galleries.update');
+        Route::delete('galleries/{gallery}', [GalleryController::class, 'destroy'])->name('galleries.destroy');
+
+        // Events / "Najave" (all roles)
+        Route::get('events', [EventController::class, 'index'])->name('events.index');
+        Route::post('events', [EventController::class, 'store'])->name('events.store');
+        Route::put('events/{event}', [EventController::class, 'update'])->name('events.update');
+        Route::delete('events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
+
         // Admin only
         Route::middleware('role:admin')->group(function () {
+            Route::get('alumni', [AlumniTestimonialController::class, 'index'])->name('alumni.index');
+            Route::post('alumni', [AlumniTestimonialController::class, 'store'])->name('alumni.store');
+            Route::put('alumni/reorder', [AlumniTestimonialController::class, 'reorder'])->name('alumni.reorder');
+            Route::put('alumni/{alumnus}', [AlumniTestimonialController::class, 'update'])->name('alumni.update');
+            Route::delete('alumni/{alumnus}', [AlumniTestimonialController::class, 'destroy'])->name('alumni.destroy');
+
             Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
             Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
             Route::put('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');

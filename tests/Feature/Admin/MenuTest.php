@@ -85,9 +85,10 @@ class MenuTest extends TestCase
     public function test_item_validation(): void
     {
         $user = User::factory()->create();
+        $missingPageId = (int) Page::query()->withTrashed()->max('id') + 1000;
 
         $this->actingAs($user)->put(route('admin.menu.update'), ['items' => [
-            ['type' => 'page', 'page_id' => 999],
+            ['type' => 'page', 'page_id' => $missingPageId],
             ['type' => 'custom', 'label' => '', 'url' => '/kontakt/'],
             ['type' => 'custom', 'label' => 'Loš link', 'url' => 'javascript:alert(1)'],
             ['type' => 'nesto', 'label' => 'X'],

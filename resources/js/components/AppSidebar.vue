@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
 import {
+    CalendarDays,
     FileText,
     FolderTree,
+    GalleryHorizontalEnd,
+    GraduationCap,
     Images,
     LayoutGrid,
     ListTree,
@@ -22,7 +25,10 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as alumniIndex } from '@/routes/admin/alumni';
 import { index as categoriesIndex } from '@/routes/admin/categories';
+import { index as eventsIndex } from '@/routes/admin/events';
+import { index as galleriesIndex } from '@/routes/admin/galleries';
 import { index as mediaIndex } from '@/routes/admin/media';
 import { edit as menuEdit } from '@/routes/admin/menu';
 import { index as pagesIndex } from '@/routes/admin/pages';
@@ -42,6 +48,14 @@ const allNavItems: NavItem[] = [
     { title: 'Stranice', href: pagesIndex(), icon: FileText },
     { title: 'Mediji', href: mediaIndex(), icon: Images },
     { title: 'Meni', href: menuEdit(), icon: ListTree },
+    { title: 'Galerije', href: galleriesIndex(), icon: GalleryHorizontalEnd },
+    { title: 'Najave', href: eventsIndex(), icon: CalendarDays },
+    {
+        title: 'Bivši učenici',
+        href: alumniIndex(),
+        icon: GraduationCap,
+        roles: ['admin'],
+    },
     {
         title: 'Kategorije',
         href: categoriesIndex(),

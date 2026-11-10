@@ -19,6 +19,7 @@ use LogicException;
  * @property bool $is_system
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
+ * @property-read int|null $items_count
  */
 #[Fillable(['name', 'slug', 'type', 'is_system'])]
 class Gallery extends Model
