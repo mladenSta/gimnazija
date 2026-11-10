@@ -10,6 +10,7 @@ import {
     LayoutGrid,
     ListTree,
     Newspaper,
+    Users,
 } from '@lucide/vue';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
@@ -33,6 +34,7 @@ import { index as mediaIndex } from '@/routes/admin/media';
 import { edit as menuEdit } from '@/routes/admin/menu';
 import { index as pagesIndex } from '@/routes/admin/pages';
 import { index as postsIndex } from '@/routes/admin/posts';
+import { index as usersIndex } from '@/routes/admin/users';
 import type { NavItem } from '@/types';
 
 const page = usePage();
@@ -54,6 +56,12 @@ const allNavItems: NavItem[] = [
         title: 'Bivši učenici',
         href: alumniIndex(),
         icon: GraduationCap,
+        roles: ['admin'],
+    },
+    {
+        title: 'Korisnici',
+        href: usersIndex(),
+        icon: Users,
         roles: ['admin'],
     },
     {

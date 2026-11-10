@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,6 +72,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::put('alumni/reorder', [AlumniTestimonialController::class, 'reorder'])->name('alumni.reorder');
             Route::put('alumni/{alumnus}', [AlumniTestimonialController::class, 'update'])->name('alumni.update');
             Route::delete('alumni/{alumnus}', [AlumniTestimonialController::class, 'destroy'])->name('alumni.destroy');
+
+            Route::get('users', [UserController::class, 'index'])->name('users.index');
+            Route::post('users', [UserController::class, 'store'])->name('users.store');
+            Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+            Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
             Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
             Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
