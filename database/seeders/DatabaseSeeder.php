@@ -13,10 +13,12 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Seed the first administrator from config/cms.php (ADMIN_* in .env).
+     * System galleries + the first administrator from config/cms.php (ADMIN_* in .env).
      */
     public function run(): void
     {
+        $this->call(GallerySeeder::class);
+
         $email = config('cms.admin.email');
         $password = config('cms.admin.password');
 
