@@ -41,6 +41,7 @@ function remove(id: number): void {
             v-model="model"
             :animation="150"
             handle=".drag-handle"
+            :force-fallback="true"
             class="grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-6"
         >
             <div

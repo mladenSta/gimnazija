@@ -139,7 +139,7 @@ class PageTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)->get(route('admin.pages.index'))
-            ->assertInertia(fn (Assert $p) => $p->has('pages.data', 2)
+            ->assertInertia(fn (Assert $p) => $p->has('pages.data', 2)->where('pages.meta.total', 2)->has('pages.meta.links')
                 ->where('counts.all', 2)->where('counts.draft', 1)->where('counts.trash', 1));
 
         $this->actingAs($user)->get(route('admin.pages.index', ['search' => 'bil']))

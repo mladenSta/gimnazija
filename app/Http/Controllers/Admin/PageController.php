@@ -9,6 +9,7 @@ use App\Http\Resources\PageFormResource;
 use App\Models\Page;
 use App\Models\User;
 use App\Services\Content\ContentSaver;
+use App\Support\PaginatedProps;
 use App\Support\UploadSettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -57,7 +58,7 @@ class PageController extends Controller
         }
 
         return Inertia::render('admin/pages/Index', [
-            'pages' => $pages,
+            'pages' => PaginatedProps::from($pages),
             'filters' => ['status' => $tab, 'search' => $search],
             'counts' => $counts,
         ]);

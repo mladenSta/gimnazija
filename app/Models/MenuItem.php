@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
  * @property-read string $display_label
+ * @property-read string|null $href
  */
 #[Fillable(['parent_id', 'sort_order', 'type', 'page_id', 'category_id', 'url', 'label'])]
 class MenuItem extends Model
@@ -84,6 +85,23 @@ class MenuItem extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /** Deepest allowed nesting: 1 = top level, 2 = submenu. */
+    public const MAX_DEPTH = 2;
+
+    /**
+     * Public URL (WordPress structure). Null for a heading without a link.
+     * Expects page/category to be eager-loaded.
+     */
+    public function getHrefAttribute(): ?string
+    {
+        return match ($this->type) {
+            MenuItemType::Page => $this->page ? "/{$this->page->slug}/" : null,
+            MenuItemType::Category => $this->category ? "/category/{$this->category->slug}/" : null,
+            MenuItemType::PostsIndex => '/vijesti/',
+            MenuItemType::Custom => filled($this->url) ? (string) $this->url : null,
+        };
     }
 
     /**

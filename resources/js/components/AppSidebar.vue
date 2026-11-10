@@ -5,6 +5,7 @@ import {
     FolderTree,
     Images,
     LayoutGrid,
+    ListTree,
     Newspaper,
 } from '@lucide/vue';
 import { computed } from 'vue';
@@ -23,6 +24,7 @@ import {
 import { dashboard } from '@/routes';
 import { index as categoriesIndex } from '@/routes/admin/categories';
 import { index as mediaIndex } from '@/routes/admin/media';
+import { edit as menuEdit } from '@/routes/admin/menu';
 import { index as pagesIndex } from '@/routes/admin/pages';
 import { index as postsIndex } from '@/routes/admin/posts';
 import type { NavItem } from '@/types';
@@ -39,6 +41,7 @@ const allNavItems: NavItem[] = [
     { title: 'Objave', href: postsIndex(), icon: Newspaper },
     { title: 'Stranice', href: pagesIndex(), icon: FileText },
     { title: 'Mediji', href: mediaIndex(), icon: Images },
+    { title: 'Meni', href: menuEdit(), icon: ListTree },
     {
         title: 'Kategorije',
         href: categoriesIndex(),

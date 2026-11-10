@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use App\Services\Content\ContentSaver;
+use App\Support\PaginatedProps;
 use App\Support\UploadSettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -62,7 +63,7 @@ class PostController extends Controller
         }
 
         return Inertia::render('admin/posts/Index', [
-            'posts' => $posts,
+            'posts' => PaginatedProps::from($posts),
             'filters' => ['status' => $tab, 'search' => $search, 'category' => $categoryId],
             'counts' => $counts,
             'categories' => Category::query()->orderBy('name')->get(['id', 'name']),

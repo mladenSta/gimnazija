@@ -54,6 +54,9 @@ class PostTest extends TestCase
                 ->component('admin/posts/Index')
                 ->has('posts.data', 1)
                 ->where('posts.data.0.title', 'Moja vijest')
+                ->where('posts.meta.last_page', 1)
+                ->where('posts.meta.total', 1)
+                ->has('posts.meta.links')
                 ->where('counts.all', 1));
     }
 
