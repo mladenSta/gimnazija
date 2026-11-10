@@ -46,26 +46,27 @@ const pinInputContainerRef = useTemplateRef('pinInputContainerRef');
 const modalConfig = computed<TwoFactorConfigContent>(() => {
     if (props.twoFactorEnabled) {
         return {
-            title: 'Two-factor authentication enabled',
+            title: 'Dvostepena prijava je uključena',
             description:
-                'Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.',
-            buttonText: 'Close',
+                'Dvostepena prijava je uključena. Skenirajte QR kôd ili unesite ključ u aplikaciju za autentifikaciju.',
+            buttonText: 'Zatvori',
         };
     }
 
     if (showVerificationStep.value) {
         return {
-            title: 'Verify authentication code',
-            description: 'Enter the 6-digit code from your authenticator app',
-            buttonText: 'Continue',
+            title: 'Potvrdite kôd',
+            description:
+                'Unesite šestocifreni kôd iz aplikacije za autentifikaciju',
+            buttonText: 'Nastavi',
         };
     }
 
     return {
-        title: 'Enable two-factor authentication',
+        title: 'Uključivanje dvostepene prijave',
         description:
-            'To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app',
-        buttonText: 'Continue',
+            'Da završite uključivanje, skenirajte QR kôd ili unesite ključ u aplikaciju za autentifikaciju',
+        buttonText: 'Nastavi',
     };
 });
 
@@ -197,7 +198,7 @@ watch(
                                 class="absolute inset-0 top-1/2 h-px w-full bg-border"
                             />
                             <span class="relative bg-card px-2 py-1"
-                                >or, enter the code manually</span
+                                >ili unesite kôd ručno</span
                             >
                         </div>
 
@@ -279,14 +280,14 @@ watch(
                                     @click="showVerificationStep = false"
                                     :disabled="processing"
                                 >
-                                    Back
+                                    Nazad
                                 </Button>
                                 <Button
                                     type="submit"
                                     class="w-auto flex-1"
                                     :disabled="processing || code.length < 6"
                                 >
-                                    Confirm
+                                    Potvrdi
                                 </Button>
                             </div>
                         </div>

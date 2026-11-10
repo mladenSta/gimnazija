@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 return [
-    'reset' => 'Lozinka je resetovana!',
-    'sent' => 'Poslali smo reset link za vašu lozinku!',
-    'throttled' => 'Molimo sačekajte pre nego što pokušate ponovo.',
-    'token' => 'Ukucana oznaka za resetovanje lozinke nije važeća.',
-    'user' => 'Nismo uspeli pronaći korisnika sa email adresom.',
+    'reset' => 'Lozinka je promijenjena.',
+    'sent' => 'Poslali smo vam email sa linkom za novu lozinku.',
+    'throttled' => 'Sačekajte malo prije nego što pokušate ponovo.',
+    'token' => 'Link za novu lozinku nije važeći ili je istekao.',
+    'user' => 'Ne postoji korisnik sa tom email adresom.',
 ];
