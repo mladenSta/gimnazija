@@ -12,7 +12,8 @@
 
         <div class="article">
             @if ($page->featuredImage)
-                <figure class="featured-image">
+                {{-- Portrait images (posters) are shown whole instead of cropped to 16:9. --}}
+                <figure @class(['featured-image', 'is-portrait' => $page->featuredImage->isPortrait()])>
                     <x-site.img :media="$page->featuredImage" variant="large" sizes="(max-width: 1080px) 100vw, 1040px" :alt="$page->featuredImage->alt ?? $page->title" eager />
                 </figure>
             @endif

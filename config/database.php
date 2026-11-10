@@ -64,6 +64,24 @@ return [
             ]) : [],
         ],
 
+        // Old WordPress site (read-only source for `php artisan wp:import`).
+        'wordpress' => [
+            'driver' => 'mysql',
+            'url' => env('WP_DB_URL'),
+            'host' => env('WP_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => env('WP_DB_PORT', env('DB_PORT', '3306')),
+            'database' => env('WP_DB_DATABASE', 'gimwp'),
+            'username' => env('WP_DB_USERNAME', env('DB_USERNAME', 'root')),
+            'password' => env('WP_DB_PASSWORD', env('DB_PASSWORD', '')),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => env('WP_DB_PREFIX', 'wpjs_'),
+            'prefix_indexes' => true,
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),

@@ -2243,3 +2243,13 @@ header.site::before {
         z-index: 55;
     }
 }
+
+.featured-image.is-portrait {
+    aspect-ratio: auto;
+    width: min(560px, 100% - 40px);
+    background: none;
+}
+.featured-image.is-portrait img {
+    height: auto;
+    object-fit: contain;
+}

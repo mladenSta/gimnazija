@@ -44,5 +44,5 @@ yarn-error.log
 /opencode.json
 /opencode.jsonc
 
-# WordPress uploads + new media (copied/managed outside git)
-/public/wp-content/uploads
+# WordPress files and media library (uploads, archives, backups) live outside git
+/public/wp-content/

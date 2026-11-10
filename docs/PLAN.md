@@ -174,6 +174,7 @@ Each phase ends with feature tests (policies, routes, validation) passing.
 - 2026-11-10: Media lives in `public/wp-content/uploads` (WP folder copied in; new uploads go there too).
 - 2026-11-10: Public site built (Blade). "Izdvajamo" cards use optional photos from `public/images/izdvajamo/{casopis,dramska,takmicenja}.jpg` (emoji placeholder until added). Stats numbers are placeholders.
 - 2026-11-10: Laravel's "remove trailing slash" rule removed from `public/.htaccess`; the app 301s `/slug` → `/slug/` (EnsureTrailingSlash).
+- 2026-11-10: WordPress import done (`php artisan wp:import`, re-runnable, matches by wp_id): 11 categories, 1,065 posts (1,062 published, 3 drafts), 3,018 photos. Image blocks moved from the text into each post's gallery (the featured image is not repeated); video/embeds removed; links to gimnazija.net made relative; primary category = most specific one. All 1,062 published URLs kept (4 URL-encoded slugs got clean slugs + 301). Photos are registered in place from `public/wp-content/uploads` (no conversion; WordPress's resized copies are the srcset variants).
 
 ## 10. Still open
 

@@ -37,6 +37,12 @@ class ContentSanitizer
             // h1 is reserved for the page title.
             ->allowElement('h1');
 
+        // Wrapper elements (WordPress blocks, text pasted from Word/web): drop the
+        // tag but keep what is inside, so no text is lost.
+        foreach (['div', 'span', 'section', 'article', 'header', 'footer', 'main', 'aside', 'center', 'font', 'small', 'mark', 'abbr', 'cite', 'code', 'pre', 'del', 'ins', 'address', 'time', 'label'] as $wrapper) {
+            $config = $config->blockElement($wrapper);
+        }
+
         $this->sanitizer = new HtmlSanitizer($config);
     }
 
@@ -49,8 +55,9 @@ class ContentSanitizer
         $clean = $this->sanitizer->sanitize($html);
         $clean = preg_replace('#<(/?)h1>#i', '<$1h2>', $clean) ?? $clean;
 
-        // Editors leave empty paragraphs at the start/end (e.g. Tiptap's trailing <p></p>).
-        $clean = preg_replace('#^(?:\s*<p>(?:\s|&nbsp;|<br\s*/?>)*</p>)+|(?:<p>(?:\s|&nbsp;|<br\s*/?>)*</p>\s*)+$#i', '', $clean) ?? $clean;
+        // Empty paragraphs (Tiptap's trailing <p></p>, spacer paragraphs from WordPress).
+        $clean = preg_replace('#<p>(?:\s|&nbsp;|\x{00A0}|<br\s*/?>)*</p>#iu', '', $clean) ?? $clean;
+        $clean = trim($clean);
 
         // Tiptap's empty document.
         return trim(strip_tags($clean, '<img>')) === '' ? null : $clean;

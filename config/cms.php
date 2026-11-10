@@ -49,4 +49,17 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | WordPress import
+    |--------------------------------------------------------------------------
+    |
+    | Absolute links to the old site are made relative during the import.
+    |
+    */
+
+    'wordpress' => [
+        'url' => env('WP_SITE_URL', 'https://gimnazija.net'),
+    ],
+
 ];
