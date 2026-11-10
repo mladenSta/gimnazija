@@ -3,8 +3,11 @@
 namespace Tests\Feature\WordPress;
 
 use App\Enums\ContentStatus;
+use App\Enums\MenuItemType;
 use App\Models\Category;
 use App\Models\Media;
+use App\Models\MenuItem;
+use App\Models\Page;
 use App\Models\Post;
 use App\Models\Redirect;
 use Illuminate\Database\Schema\Blueprint;
@@ -47,6 +50,7 @@ class WordPressImportTest extends TestCase
             $t->string('post_status')->default('publish');
             $t->string('post_type')->default('post');
             $t->string('post_mime_type')->default('');
+            $t->integer('menu_order')->default(0);
             $t->dateTime('post_date')->nullable();
             $t->dateTime('post_modified')->nullable();
         });
@@ -286,5 +290,84 @@ class WordPressImportTest extends TestCase
         $this->artisan('wp:import')->assertSuccessful();
 
         $this->assertTrue(Media::query()->sole()->isInUse());
+    }
+
+    /**
+     * @param  array<string, string>  $meta
+     */
+    private function menuItem(int $id, int $menuTaxonomyId, int $order, string $title, array $meta): void
+    {
+        DB::connection('wordpress')->table('posts')->insert([
+            'ID' => $id, 'post_type' => 'nav_menu_item', 'post_status' => 'publish', 'post_title' => $title,
+            'post_name' => (string) $id, 'post_excerpt' => '', 'menu_order' => $order,
+        ]);
+        DB::connection('wordpress')->table('term_relationships')->insert(['object_id' => $id, 'term_taxonomy_id' => $menuTaxonomyId]);
+        foreach ($meta + ['menu_item_parent' => '0'] as $key => $value) {
+            DB::connection('wordpress')->table('postmeta')->insert(['post_id' => $id, 'meta_key' => "_menu_item_{$key}", 'meta_value' => $value]);
+        }
+    }
+
+    public function test_pages_from_the_menu_are_imported_and_the_menu_rebuilt(): void
+    {
+        $this->category(208, 'Računarski smjer', 'racunarski-smjer', 3);
+        $this->image(901, '2020/05/biblioteka.jpg');
+
+        $page = fn (int $id, string $slug, string $title, string $content) => DB::connection('wordpress')->table('posts')->insert([
+            'ID' => $id, 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => $title, 'post_name' => $slug,
+            'post_content' => $content, 'post_excerpt' => '', 'post_date' => '2020-05-01 10:00:00', 'post_modified' => '2020-05-02 10:00:00',
+        ]);
+        $page(100, 'home', 'Home', '');
+        $page(101, 'vijesti', 'Vijesti', '');
+        $page(102, 'biblioteka', 'Biblioteka', "[vc_row][vc_column width=\"1/2\"][vc_column_text]DJELATNOST:\n* kulturna\n* obrazovna\n\nNaša škola je obrazovno-<br />vaspitna\nustanova.<!-- /wp:paragraph -->[/vc_column_text][/vc_column][vc_column width=\"1/2\"][vc_single_image image=\"901\" img_size=\"full\"][/vc_column][/vc_row]");
+        $page(103, 'dramska-sekcija', 'Dramska sekcija', '[vc_row][vc_column][vc_video link="https://www.youtube.com/watch?v=x"][/vc_column][/vc_row]');
+        $page(104, 'kontakt', 'Kontakt', '[vc_row][vc_column][eikra-vc-contact address="Hilandarska 2, 74000 Doboj" email="ss38@skolers.org" phone="053 200 970"][/vc_column][vc_column][contact-form-7 id="7"][/vc_column][/vc_row]');
+
+        DB::connection('wordpress')->table('terms')->insert(['term_id' => 50, 'name' => 'Main Menu', 'slug' => 'main-menu']);
+        DB::connection('wordpress')->table('term_taxonomy')->insert(['term_taxonomy_id' => 50, 'term_id' => 50, 'taxonomy' => 'nav_menu']);
+        $this->menuItem(1, 50, 1, 'Home', ['type' => 'post_type', 'object' => 'page', 'object_id' => '100']);
+        $this->menuItem(2, 50, 2, 'O nama', ['type' => 'custom', 'object' => 'custom', 'object_id' => '2', 'url' => '#']);
+        $this->menuItem(3, 50, 3, '', ['type' => 'post_type', 'object' => 'page', 'object_id' => '102', 'menu_item_parent' => '2']);
+        $this->menuItem(4, 50, 4, '', ['type' => 'taxonomy', 'object' => 'category', 'object_id' => '208', 'menu_item_parent' => '2']);
+        $this->menuItem(5, 50, 5, '', ['type' => 'post_type', 'object' => 'page', 'object_id' => '101']);
+        $this->menuItem(6, 50, 6, '', ['type' => 'post_type', 'object' => 'page', 'object_id' => '103']);
+        $this->menuItem(7, 50, 7, 'Kontakt', ['type' => 'post_type', 'object' => 'page', 'object_id' => '104']);
+
+        // A test page created by hand with the same link is taken over, not duplicated.
+        Page::factory()->create(['slug' => 'biblioteka', 'title' => 'Proba']);
+        MenuItem::query()->create(['type' => MenuItemType::Custom, 'url' => '/stari/', 'label' => 'Stari']);
+
+        $this->artisan('wp:import-pages')->assertSuccessful();
+
+        $this->assertSame(['biblioteka', 'dramska-sekcija', 'kontakt'], Page::query()->orderBy('slug')->pluck('slug')->all());
+
+        $biblioteka = Page::query()->with('galleryImages')->where('slug', 'biblioteka')->sole();
+        $this->assertSame('Biblioteka', $biblioteka->title);
+        $this->assertSame(102, $biblioteka->wp_id);
+        $this->assertSame(ContentStatus::Published, $biblioteka->status);
+        $this->assertSame(
+            '<p>DJELATNOST:</p><ul><li>kulturna</li><li>obrazovna</li></ul><p>Naša škola je obrazovno-vaspitna</p><p>ustanova.</p>',
+            preg_replace('/>\s+</', '><', (string) $biblioteka->content),
+        );
+        $this->assertSame(['2020/05/biblioteka.jpg'], $biblioteka->galleryImages->pluck('path')->all());
+
+        $this->assertNull(Page::query()->where('slug', 'dramska-sekcija')->value('content'));
+        $kontakt = (string) Page::query()->where('slug', 'kontakt')->value('content');
+        $this->assertStringContainsString('Hilandarska 2, 74000 Doboj<br />Telefon: <a href="tel:053200970">053 200 970</a>', $kontakt);
+        $this->assertStringNotContainsString('contact-form', $kontakt);
+
+        // Menu: same structure; "Home" left out (the site has its own), /vijesti/ → news archive.
+        $menu = MenuItem::query()->roots()->with(['page', 'category', 'children.page', 'children.category'])->get();
+        $this->assertSame(['O nama', 'Vijesti', 'Dramska sekcija', 'Kontakt'], $menu->map->display_label->all());
+        $this->assertNull($menu[0]->href);
+        $this->assertSame(['/biblioteka/', '/category/racunarski-smjer/'], $menu[0]->children->map->href->all());
+        $this->assertSame(MenuItemType::PostsIndex, $menu[1]->type);
+        $this->assertSame(['O nama', 'Kontakt'], MenuItem::query()->whereNotNull('label')->orderBy('id')->pluck('label')->all());
+
+        $this->get('/biblioteka/')->assertOk()->assertSee('DJELATNOST');
+
+        // Running again updates in place.
+        $this->artisan('wp:import-pages')->assertSuccessful();
+        $this->assertSame(3, Page::query()->count());
+        $this->assertSame(1, Media::query()->count());
     }
 }

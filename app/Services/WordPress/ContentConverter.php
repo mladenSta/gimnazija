@@ -29,6 +29,11 @@ class ContentConverter
         $imageIds = [];
         $removedEmbeds = 0;
 
+        // 0. Old pages built with the theme's page builder (WPBakery shortcodes).
+        if (str_contains($html, '[vc_')) {
+            $html = $this->pageBuilder($html, $imageIds, $removedEmbeds);
+        }
+
         // 1. Image and gallery blocks → gallery below the text (document order).
         $html = (string) preg_replace_callback(
             '#<!--\s*wp:(gallery|image)\b.*?<!--\s*/wp:\1\s*-->#s',
@@ -94,6 +99,102 @@ class ContentConverter
             'image_ids' => array_values(array_unique($imageIds)),
             'removed_embeds' => $removedEmbeds,
         ];
+    }
+
+    /**
+     * WPBakery page builder → plain HTML:
+     *   - [vc_single_image image="ID"] → gallery photo
+     *   - videos, contact forms, decorative headings/separators → removed
+     *   - the theme's contact box → a paragraph with address, email, phone
+     *   - layout shortcodes (rows, columns, text boxes) → dropped, text kept
+     *   - text typed without <p> (one paragraph per line, "* " lists) → HTML
+     *
+     * @param  list<int>  $imageIds
+     */
+    private function pageBuilder(string $html, array &$imageIds, int &$removedEmbeds): string
+    {
+        $html = (string) preg_replace_callback('#\[vc_single_image\b[^\]]*\]#', function (array $m) use (&$imageIds) {
+            if (preg_match('#\simage="(\d+)"#', $m[0], $id)) {
+                $imageIds[] = (int) $id[1];
+            }
+
+            return "\n";
+        }, $html);
+
+        $html = (string) preg_replace_callback('#\[vc_video\b[^\]]*\]#', function () use (&$removedEmbeds) {
+            $removedEmbeds++;
+
+            return "\n";
+        }, $html);
+
+        // Hard line breaks from text pasted out of a PDF ("obrazovno-<br>vaspitnu"):
+        // join them unless the line ends a sentence.
+        $html = (string) preg_replace('#-<br\s*/?>\s*#u', '-', $html);
+        $html = (string) preg_replace('#(?<=[\p{L},])<br\s*/?>\s*#u', ' ', $html);
+
+        $html = (string) preg_replace_callback('#\[eikra-vc-contact\b([^\]]*)\]#', function (array $m) {
+            preg_match_all('#(\w+)="([^"]*)"#', $m[1], $pairs, PREG_SET_ORDER);
+            $a = array_column($pairs, 2, 1);
+            $lines = [];
+            if (filled($a['address'] ?? null)) {
+                $lines[] = 'Adresa: '.e($a['address']);
+            }
+            if (filled($a['phone'] ?? null)) {
+                $lines[] = 'Telefon: <a href="tel:'.preg_replace('/[^\d+]/', '', $a['phone']).'">'.e($a['phone']).'</a>';
+            }
+            if (filled($a['email'] ?? null)) {
+                $lines[] = 'Email: <a href="mailto:'.e($a['email']).'">'.e($a['email']).'</a>';
+            }
+
+            return "\n".($lines ? '<p>'.implode('<br>', $lines).'</p>' : '')."\n";
+        }, $html);
+
+        // Everything else in [brackets] that looks like a shortcode: forms,
+        // decorative elements and layout wrappers. Only the tags go; any text
+        // between an opening and closing tag stays.
+        $html = (string) preg_replace('#\[/?(?:vc_[a-z_]+|contact-form-7|eikra-[a-z-]+)\b[^\]]*\]#', "\n", $html);
+
+        return $this->autop($html);
+    }
+
+    /**
+     * Wrap bare text lines in <p>; consecutive "* item" lines become a list.
+     * Lines that already start with a block tag are left alone.
+     */
+    private function autop(string $html): string
+    {
+        $out = [];
+        $list = [];
+
+        foreach (preg_split('/\R/u', $html) ?: [] as $line) {
+            // Leftover block-editor markers ("<!-- /wp:paragraph -->") at the start of a line.
+            $line = trim((string) preg_replace('#^(?:\s*<!--\s*/?wp:(?!image|gallery|embed|video|file|core-embed)[^>]*-->)+#', '', $line));
+
+            if ($line === '') {
+                continue;
+            }
+
+            if (preg_match('/^[*•]\s+(.+)$/u', $line, $m)) {
+                $list[] = $m[1];
+
+                continue;
+            }
+
+            if ($list !== []) {
+                $out[] = '<ul><li>'.implode('</li><li>', $list).'</li></ul>';
+                $list = [];
+            }
+
+            $out[] = preg_match('#^<(?:/?(?:p|h[1-6]|ul|ol|li|table|thead|tbody|tr|td|th|blockquote|div|figure|figcaption)\b|!--)#i', $line)
+                ? $line
+                : "<p>{$line}</p>";
+        }
+
+        if ($list !== []) {
+            $out[] = '<ul><li>'.implode('</li><li>', $list).'</li></ul>';
+        }
+
+        return implode("\n", $out);
     }
 
     public function relativeLinks(string $html): string

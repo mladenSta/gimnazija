@@ -3,11 +3,16 @@
 namespace App\Services\WordPress;
 
 use App\Enums\ContentStatus;
+use App\Enums\MenuItemType;
 use App\Models\Category;
 use App\Models\Media;
+use App\Models\MenuItem;
+use App\Models\Page;
 use App\Models\Post;
 use App\Models\Redirect;
+use App\Services\Content\MenuTreeSaver;
 use App\Services\Content\SlugGenerator;
+use App\Support\ReservedSlugs;
 use App\Support\Slug;
 use Closure;
 use Illuminate\Database\ConnectionInterface;
@@ -29,11 +34,13 @@ class WordPressImporter
     /** @var array<int, int> WordPress term_id → number of posts (for picking the primary category) */
     private array $categoryCounts = [];
 
-    /** @var array{categories: int, posts_created: int, posts_updated: int, images: int, embeds_removed: int, slugs_changed: list<string>, skipped: list<string>} */
+    /** @var array{categories: int, posts_created: int, posts_updated: int, pages_created: int, pages_updated: int, images: int, embeds_removed: int, slugs_changed: list<string>, skipped: list<string>} */
     public array $report = [
         'categories' => 0,
         'posts_created' => 0,
         'posts_updated' => 0,
+        'pages_created' => 0,
+        'pages_updated' => 0,
         'images' => 0,
         'embeds_removed' => 0,
         'slugs_changed' => [],
@@ -186,10 +193,255 @@ class WordPressImporter
     }
 
     /**
+     * Published pages linked from the given WordPress menus, in menu order.
+     * The front page and pages whose URL the new site already serves
+     * (e.g. /vijesti/ is the news archive) are left out.
+     *
+     * @param  list<string>  $menuSlugs
+     * @return list<int>
+     */
+    public function menuPageIds(array $menuSlugs): array
+    {
+        $ids = [];
+        foreach ($menuSlugs as $menu) {
+            foreach ($this->menuItems($menu) as $item) {
+                if ($item['type'] === 'post_type' && $item['object'] === 'page') {
+                    $ids[] = $item['object_id'];
+                }
+            }
+        }
+
+        $pages = $this->wp->table('posts')
+            ->whereIn('ID', array_unique($ids))
+            ->where('post_type', 'page')
+            ->where('post_status', 'publish')
+            ->pluck('post_name', 'ID');
+
+        return array_values(array_unique(array_filter(
+            $ids,
+            fn (int $id) => isset($pages[$id]) && ! $this->isSkippedPage((string) $pages[$id]),
+        )));
+    }
+
+    /**
+     * @param  list<int>  $ids  WordPress page IDs
+     * @return list<Page>
+     */
+    public function importPages(array $ids): array
+    {
+        $rows = $this->wp->table('posts')
+            ->whereIn('ID', $ids ?: [0])
+            ->where('post_type', 'page')
+            ->get(['ID', 'post_title', 'post_name', 'post_content', 'post_excerpt', 'post_status', 'post_date', 'post_modified'])
+            ->keyBy('ID');
+
+        $thumbnails = $this->wp->table('postmeta')
+            ->where('meta_key', '_thumbnail_id')
+            ->whereIn('post_id', $ids ?: [0])
+            ->pluck('meta_value', 'post_id');
+
+        $pages = [];
+        foreach ($ids as $id) {
+            if (isset($rows[$id])) {
+                $row = WpPost::fromRow($rows[$id]);
+                $pages[] = DB::transaction(fn () => $this->importPage($row, (int) ($thumbnails[$id] ?? 0)));
+            }
+        }
+
+        return $pages;
+    }
+
+    private function importPage(WpPost $row, int $thumbnailId): Page
+    {
+        // Matched by wp_id, else by slug (a page created by hand before the import).
+        $page = Page::withTrashed()->where('wp_id', $row->id)->first()
+            ?? Page::withTrashed()->where('slug', strtolower($row->name))->first()
+            ?? new Page;
+        $isNew = ! $page->exists;
+        $title = trim(html_entity_decode($row->title, ENT_QUOTES | ENT_HTML5)) ?: 'Bez naslova';
+
+        $converted = $this->converter->convert($row->content);
+        $this->report['embeds_removed'] += $converted['removed_embeds'];
+
+        $featured = $thumbnailId ? $this->media->media($thumbnailId) : null;
+
+        $galleryIds = [];
+        foreach ($converted['image_ids'] as $attachmentId) {
+            if ($attachmentId !== $thumbnailId && ($media = $this->media->media($attachmentId))) {
+                $galleryIds[] = $media->id;
+            }
+        }
+
+        $published = Carbon::parse($row->date);
+
+        $page->timestamps = false;
+        $page->forceFill([
+            'title' => $title,
+            'slug' => $page->exists ? $page->slug : $this->slugFor($row, $title, $page),
+            'content' => $converted['html'],
+            'featured_media_id' => $featured?->id,
+            'status' => ContentStatus::Published,
+            'published_at' => $page->published_at ?? $published,
+            'wp_id' => $row->id,
+            'created_at' => $isNew ? $published : $page->created_at,
+            'updated_at' => Carbon::parse($row->modified),
+        ])->save();
+
+        if ($page->trashed()) {
+            $page->restore();
+        }
+
+        $page->syncGalleryImages(array_values(array_unique($galleryIds)));
+        $page->syncInlineImages([]);
+
+        $this->report[$isNew ? 'pages_created' : 'pages_updated']++;
+
+        return $page;
+    }
+
+    /**
+     * Replace the new site's main menu with the given WordPress menu.
+     * Pages and categories must be imported first; items pointing to
+     * something that wasn't imported are left out.
+     */
+    public function importMenu(string $menuSlug): int
+    {
+        $items = $this->menuItems($menuSlug);
+        $byParent = [];
+        foreach ($items as $item) {
+            $byParent[$item['parent']][] = $item;
+        }
+
+        $tree = $this->menuLevel($byParent, 0);
+        app(MenuTreeSaver::class)->save($tree);
+
+        return MenuItem::query()->count();
+    }
+
+    /**
+     * @param  array<int, list<array{id: int, parent: int, label: string, title: string, type: string, object: string, object_id: int, url: string}>>  $byParent
+     * @return list<array<string, mixed>>
+     */
+    private function menuLevel(array $byParent, int $parent): array
+    {
+        $tree = [];
+        foreach ($byParent[$parent] ?? [] as $item) {
+            $node = match (true) {
+                $item['type'] === 'post_type' && $item['object'] === 'page' => $this->pageMenuNode($item['object_id']),
+                $item['type'] === 'taxonomy' && $item['object'] === 'category' => ($id = Category::query()->where('wp_id', $item['object_id'])->value('id'))
+                    ? ['type' => MenuItemType::Category->value, 'category_id' => $id]
+                    : null,
+                $item['type'] === 'custom' => ['type' => MenuItemType::Custom->value, 'url' => $this->customUrl($item['url'])],
+                default => null,
+            };
+
+            if ($node === null) {
+                continue;
+            }
+
+            // Own label only for headings and renamed items; otherwise the page/category title is used.
+            $node['label'] = $item['type'] === 'custom' ? $item['label'] : ($item['title'] !== '' ? $item['title'] : null);
+            $node['children'] = $this->menuLevel($byParent, $item['id']);
+            $tree[] = $node;
+        }
+
+        return $tree;
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function pageMenuNode(int $wpId): ?array
+    {
+        $slug = (string) $this->wp->table('posts')->where('ID', $wpId)->value('post_name');
+
+        if ($slug === 'vijesti') {
+            return ['type' => MenuItemType::PostsIndex->value];
+        }
+
+        $id = Page::query()->where('wp_id', $wpId)->value('id');
+
+        return $id ? ['type' => MenuItemType::Page->value, 'page_id' => $id] : null; // front page, or not imported
+    }
+
+    private function customUrl(string $url): ?string
+    {
+        $url = trim($this->converter->relativeLinks($url));
+
+        return $url === '' || $url === '#' ? null : $url;
+    }
+
+    private function isSkippedPage(string $slug): bool
+    {
+        return in_array($slug, ['home', 'pocetna'], true) || ReservedSlugs::contains($slug);
+    }
+
+    /**
+     * Items of a WordPress menu, in menu order.
+     *
+     * @return list<array{id: int, parent: int, label: string, title: string, type: string, object: string, object_id: int, url: string}>
+     */
+    private function menuItems(string $menuSlug): array
+    {
+        $taxonomyId = $this->wp->table('terms as t')
+            ->join('term_taxonomy as tt', 'tt.term_id', '=', 't.term_id')
+            ->where('tt.taxonomy', 'nav_menu')
+            ->where('t.slug', $menuSlug)
+            ->value('tt.term_taxonomy_id');
+
+        if ($taxonomyId === null) {
+            return [];
+        }
+
+        $rows = $this->wp->table('posts as p')
+            ->join('term_relationships as tr', 'tr.object_id', '=', 'p.ID')
+            ->where('tr.term_taxonomy_id', $taxonomyId)
+            ->where('p.post_type', 'nav_menu_item')
+            ->where('p.post_status', 'publish')
+            ->orderBy('p.menu_order')
+            ->get(['p.ID', 'p.post_title']);
+
+        $meta = $this->wp->table('postmeta')
+            ->whereIn('post_id', $rows->pluck('ID'))
+            ->where('meta_key', 'like', '\_menu\_item\_%')
+            ->get(['post_id', 'meta_key', 'meta_value'])
+            ->groupBy('post_id');
+
+        $items = [];
+        foreach ($rows as $row) {
+            $m = ($meta[$row->ID] ?? collect())->pluck('meta_value', 'meta_key');
+            $type = (string) ($m['_menu_item_type'] ?? '');
+            $object = (string) ($m['_menu_item_object'] ?? '');
+            $objectId = (int) ($m['_menu_item_object_id'] ?? 0);
+            $title = trim(html_entity_decode((string) $row->post_title, ENT_QUOTES | ENT_HTML5));
+            $label = $title;
+
+            if ($label === '' && $type === 'post_type') {
+                $label = trim(html_entity_decode((string) $this->wp->table('posts')->where('ID', $objectId)->value('post_title'), ENT_QUOTES | ENT_HTML5));
+            } elseif ($label === '' && $type === 'taxonomy') {
+                $label = (string) $this->wp->table('terms')->where('term_id', $objectId)->value('name');
+            }
+
+            $items[] = [
+                'id' => (int) $row->ID,
+                'parent' => (int) ($m['_menu_item_menu_item_parent'] ?? 0),
+                'label' => $label,
+                'title' => $title,
+                'type' => $type,
+                'object' => $object,
+                'object_id' => $objectId,
+                'url' => (string) ($m['_menu_item_url'] ?? ''),
+            ];
+        }
+
+        return $items;
+    }
+
+    /**
      * Keep the WordPress slug (same URL, SEO). URL-encoded slugs and slugs
      * already used by a page get a clean slug plus a 301 from the old URL.
      */
-    private function slugFor(WpPost $row, string $title, Post $post): string
+    private function slugFor(WpPost $row, string $title, Post|Page $post): string
     {
         $old = strtolower($row->name);
 
