@@ -7,10 +7,10 @@
    THEME
    ========================================================= */
 :root {
-    --teal: #2894ac;
-    --teal-600: #1f7a8e;
-    --teal-100: #e3f3f7;
-    --teal-50: #f2fafc;
+    --teal: #00a3a8;
+    --teal-600: #00797d;
+    --teal-100: #ddf4f4;
+    --teal-50: #f0fafa;
     --plum: #43036e; /* used sparingly: headings accents, footer, CTA hover */
     --plum-soft: #f3ecf8;
     --white: #ffffff;
@@ -383,7 +383,7 @@ header.site {
         100deg,
         rgba(18, 24, 44, 0.78) 0%,
         rgba(18, 24, 44, 0.35) 50%,
-        rgba(40, 148, 172, 0.15) 100%
+        rgba(0, 163, 168, 0.15) 100%
     );
 }
 .slide-content {
@@ -2252,4 +2252,14 @@ header.site::before {
 .featured-image.is-portrait img {
     height: auto;
     object-fit: contain;
+}
+
+/* Logo image (school mark). On the plum footer it sits on a white tile. */
+.brand-logo {
+    object-fit: contain;
+}
+.brand-logo-inverse {
+    background: #fff;
+    border-radius: 12px;
+    padding: 3px;
 }

@@ -152,7 +152,7 @@
                 @endforeach
                 <div class="badge">
                     <svg viewBox="0 0 150 150" aria-hidden="true"><defs><path id="circ" d="M75,75 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs><text font-size="11" fill="#d9c8e6" letter-spacing="3.2" font-family="DM Sans" font-weight="700"><textPath href="#circ">GIMNAZIJA • JOVAN DUČIĆ • DOBOJ • </textPath></text></svg>
-                    <div><strong>100+</strong><span>godina<br>tradicije</span></div>
+                    <div><strong>80</strong><span>godina<br>tradicije</span></div>
                 </div>
             </div>
             @endif
@@ -184,16 +184,16 @@
 {{-- ============ IZDVAJAMO + SEKCIJE (hardcoded) ============ --}}
 @php
     $featured = [
-        ['href' => '/koraci2/', 'emoji' => '📖', 'label' => 'Časopis', 'title' => 'Školski časopis „Koraci"', 'text' => 'Naši mladi novinari, pisci i fotografi pripremaju časopis od prve do posljednje stranice.', 'more' => 'Pročitaj', 'image' => 'images/izdvajamo/casopis.jpg'],
-        ['href' => '/dramska-sekcija/', 'emoji' => '🎭', 'label' => 'Scena', 'title' => 'Dramska sekcija', 'text' => 'Predstave, festivali i aplauzi – scena na kojoj učenici pokazuju hrabrost i talenat.', 'more' => 'Pogledaj', 'image' => 'images/izdvajamo/dramska.jpg'],
-        ['href' => '/category/takmicenja/', 'emoji' => '🏆', 'label' => 'Takmičenja', 'title' => 'Takmičenja', 'text' => 'Od matematike do Crvenog krsta – rezultati koji nas čine ponosnim iz godine u godinu.', 'more' => 'Rezultati', 'image' => 'images/izdvajamo/takmicenja.jpg'],
+        ['href' => '/koraci2/', 'emoji' => '📖', 'label' => 'Časopis', 'title' => 'Školski časopis „Koraci"', 'text' => 'Naši mladi novinari, pisci i fotografi pripremaju časopis od prve do posljednje stranice.', 'more' => 'Pročitaj', 'image' => 'wp-content/uploads/2020/05/koraci-izdvojeno-600x600.jpg'],
+        ['href' => '/dramska-sekcija/', 'emoji' => '🎭', 'label' => 'Scena', 'title' => 'Dramska sekcija', 'text' => 'Predstave, festivali i aplauzi – scena na kojoj učenici pokazuju hrabrost i talenat.', 'more' => 'Pogledaj', 'image' => 'wp-content/uploads/2020/05/predstava-izdvojeno-600x600.jpg'],
+        ['href' => '/category/takmicenja/', 'emoji' => '🏆', 'label' => 'Takmičenja', 'title' => 'Takmičenja', 'text' => 'Od matematike do Crvenog krsta – rezultati koji nas čine ponosnim iz godine u godinu.', 'more' => 'Rezultati', 'image' => 'wp-content/uploads/2026/05/takmicenja-1-1.jpg'],
     ];
     $clubs = [
-        ['href' => '/dramska-sekcija/', 'emoji' => '🎭', 'name' => 'Dramska sekcija'],
-        ['href' => '/category/istorijska-sekcija/', 'emoji' => '🏛️', 'name' => 'Istorijska sekcija'],
-        ['href' => '/psiholoska-sekcija/', 'emoji' => '🧠', 'name' => 'Psihološka sekcija'],
-        ['href' => '/muzicka-kultura/', 'emoji' => '🎵', 'name' => 'Muzička kultura'],
-        ['href' => '/engleski-jezik/', 'emoji' => '🇬🇧', 'name' => 'Engleski jezik'],
+        ['href' => '/dramska-sekcija/', 'image' => 'wp-content/uploads/2026/04/667684622_122179618670770111_7068596852317087493_n-150x150.jpg', 'name' => 'Dramska sekcija'],
+        ['href' => '/category/istorijska-sekcija/', 'image' => 'wp-content/uploads/2025/02/480527504_122100981884770111_1510790567258759360_n-150x150.jpg', 'name' => 'Istorijska sekcija'],
+        ['href' => '/psiholoska-sekcija/', 'image' => 'wp-content/uploads/2023/12/411198807_853581403229513_4547516130048883423_n-150x150.jpg', 'name' => 'Psihološka sekcija'],
+        ['href' => '/muzicka-kultura/', 'image' => 'wp-content/uploads/2026/04/678580617_122181572036770111_1286488492449824675_n-150x150.jpg', 'name' => 'Muzička kultura'],
+        ['href' => '/engleski-jezik/', 'image' => 'wp-content/uploads/2026/02/640998800_122174747966770111_5923621085678546391_n-150x150.jpg', 'name' => 'Engleski jezik'],
     ];
 @endphp
 <section class="section featured" id="sekcije">
@@ -210,7 +210,7 @@
             @foreach ($featured as $f)
                 <a href="{{ $f['href'] }}" class="feat reveal">
                     @if (file_exists(public_path($f['image'])))
-                        <div class="img"><img src="{{ asset($f['image']) }}" alt="{{ $f['title'] }}" loading="lazy"><span class="label">{{ $f['emoji'] }} {{ $f['label'] }}</span></div>
+                        <div class="img"><img src="{{ asset($f['image']) }}" alt="{{ $f['title'] }}" loading="lazy"><span class="label">{{ $f['label'] }}</span></div>
                     @else
                         <div class="img placeholder" aria-hidden="true">{{ $f['emoji'] }}<span class="label">{{ $f['emoji'] }} {{ $f['label'] }}</span></div>
                     @endif
@@ -221,7 +221,7 @@
 
         <div class="clubs reveal">
             @foreach ($clubs as $c)
-                <a href="{{ $c['href'] }}" class="club"><span class="dot" aria-hidden="true">{{ $c['emoji'] }}</span>{{ $c['name'] }}</a>
+                <a href="{{ $c['href'] }}" class="club">@if (file_exists(public_path($c['image'])))<img src="{{ asset($c['image']) }}" alt="" loading="lazy" width="48" height="48">@endif{{ $c['name'] }}</a>
             @endforeach
         </div>
     </div>

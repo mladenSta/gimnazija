@@ -18,7 +18,7 @@
     <div class="container nav">
         <a href="/" class="brand" aria-label="Početna">
             @include('site.partials.logo')
-            <span class="brand-text"><strong>Gimnazija „Jovan Dučić"</strong><small>Doboj · od tradicije ka budućnosti</small></span>
+            <span class="brand-text"><strong>Gimnazija „Jovan Dučić" Doboj</strong></span>
         </a>
 
         <nav aria-label="Glavni meni">
