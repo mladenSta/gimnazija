@@ -41,9 +41,6 @@ class Media extends Model
     /** @use HasFactory<MediaFactory> */
     use HasFactory;
 
-    /** Variant names, smallest first. */
-    public const VARIANTS = ['thumb' => 400, 'medium' => 800, 'large' => 1600, 'hero' => 1920];
-
     /**
      * @return array<string, string>
      */
@@ -78,14 +75,26 @@ class Media extends Model
     }
 
     /**
-     * "url 400w, url 800w, ..." for <img srcset>.
+     * "url 400w, url 800w, …, main 1920w" for <img srcset>. Empty when there are no variants.
      */
     public function srcset(): string
     {
-        return collect($this->variants ?? [])
+        if (empty($this->variants) || $this->width === null) {
+            return '';
+        }
+
+        $disk = Storage::disk($this->disk);
+
+        return collect($this->variants)
             ->sortBy('width')
-            ->map(fn (array $v) => Storage::disk($this->disk)->url($v['path']).' '.$v['width'].'w')
+            ->map(fn (array $v) => $disk->url($v['path']).' '.$v['width'].'w')
+            ->push($disk->url($this->path).' '.$this->width.'w')
             ->implode(', ');
+    }
+
+    public function isPortrait(): bool
+    {
+        return $this->width !== null && $this->height !== null && $this->height > $this->width;
     }
 
     // ---- Usage (an image in use can't be deleted) -------------------------
@@ -136,6 +145,37 @@ class Media extends Model
     public function alumniTestimonials(): HasMany
     {
         return $this->hasMany(AlumniTestimonial::class, 'photo_media_id');
+    }
+
+    /**
+     * Where this image is used, for the admin "used in" list.
+     *
+     * @return list<array{type: string, title: string, trashed: bool}>
+     */
+    public function usages(): array
+    {
+        $usages = [];
+
+        foreach ($this->featuredInPosts()->get(['id', 'title', 'deleted_at']) as $post) {
+            $usages[] = ['type' => 'Naslovna slika objave', 'title' => $post->title, 'trashed' => $post->trashed()];
+        }
+        foreach ($this->featuredInPages()->get(['id', 'title', 'deleted_at']) as $page) {
+            $usages[] = ['type' => 'Naslovna slika stranice', 'title' => $page->title, 'trashed' => $page->trashed()];
+        }
+        foreach ($this->attachedToPosts()->get(['posts.id', 'title', 'deleted_at']) as $post) {
+            $usages[] = ['type' => 'Objava', 'title' => $post->title, 'trashed' => $post->trashed()];
+        }
+        foreach ($this->attachedToPages()->get(['pages.id', 'title', 'deleted_at']) as $page) {
+            $usages[] = ['type' => 'Stranica', 'title' => $page->title, 'trashed' => $page->trashed()];
+        }
+        foreach ($this->galleryItems()->with('gallery:id,name')->get() as $item) {
+            $usages[] = ['type' => 'Galerija', 'title' => $item->gallery->name, 'trashed' => false];
+        }
+        foreach ($this->alumniTestimonials()->get(['id', 'name']) as $alumni) {
+            $usages[] = ['type' => 'Bivši učenik', 'title' => $alumni->name, 'trashed' => false];
+        }
+
+        return $usages;
     }
 
     public function isInUse(): bool

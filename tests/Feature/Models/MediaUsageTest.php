@@ -84,6 +84,9 @@ class MediaUsageTest extends TestCase
     {
         $media = Media::factory()->create();
 
-        $this->assertMatchesRegularExpression('#-400\.webp 400w, .*-800\.webp 800w, .*-1600\.webp 1600w$#', $media->srcset());
+        $this->assertMatchesRegularExpression(
+            '#-400\.webp 400w, .*-800\.webp 800w, .*-1600\.webp 1600w, .*[a-z]\.webp 1920w$#',
+            $media->srcset(),
+        );
     }
 }
