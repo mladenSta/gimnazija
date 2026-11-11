@@ -62,6 +62,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Publishing posts to Facebook / Instagram / LinkedIn
+    |--------------------------------------------------------------------------
+    |
+    | Credentials are entered in the admin (Podešavanja), not here. These are
+    | the API versions; both networks retire old versions, so bump them when
+    | an error says the version is no longer supported.
+    |
+    */
+
+    'social_publishing' => [
+        'graph_version' => env('FACEBOOK_GRAPH_VERSION', 'v24.0'),
+        'linkedin_version' => env('LINKEDIN_API_VERSION', '202606'),
+        'timeout' => 30,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | WordPress import
     |--------------------------------------------------------------------------
     |

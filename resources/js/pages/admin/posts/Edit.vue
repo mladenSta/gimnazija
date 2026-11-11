@@ -6,6 +6,8 @@ import RichEditor from '@/components/editor/RichEditor.vue';
 import InputError from '@/components/InputError.vue';
 import GalleryField from '@/components/media/GalleryField.vue';
 import ImageField from '@/components/media/ImageField.vue';
+import SocialSharePanel from '@/components/social/SocialSharePanel.vue';
+import type { SocialNetworkPanel } from '@/components/social/SocialSharePanel.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -41,6 +43,7 @@ const props = defineProps<{
     statuses: { value: string; label: string }[];
     upload: UploadSettings;
     siteUrl: string;
+    social: SocialNetworkPanel[];
 }>();
 
 defineOptions({
@@ -377,6 +380,13 @@ function moveToTrash(): void {
                         Provjerite označena polja.
                     </p>
                 </section>
+
+                <SocialSharePanel
+                    v-if="post && social.length"
+                    :post-id="post.id"
+                    :networks="social"
+                    :dirty="form.isDirty"
+                />
 
                 <section class="space-y-3 rounded-lg border p-4">
                     <h2 class="text-sm font-semibold">Kategorije</h2>

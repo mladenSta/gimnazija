@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PostShareController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +39,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::delete('posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
         Route::post('posts/{post}/restore', [PostController::class, 'restore'])->name('posts.restore')->withTrashed();
         Route::delete('posts/{post}/force', [PostController::class, 'forceDelete'])->name('posts.force-delete')->withTrashed();
+        // Publish on Facebook / Instagram / LinkedIn (admins and editors — see PostPolicy::share)
+        Route::post('posts/{post}/share/{network}', [PostShareController::class, 'store'])
+            ->name('posts.share')
+            ->middleware('throttle:20,1');
 
         // Pages (all roles manage all pages)
         Route::get('pages', [PageController::class, 'index'])->name('pages.index');
@@ -77,6 +83,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::post('users', [UserController::class, 'store'])->name('users.store');
             Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
             Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+            Route::get('settings', [SettingsController::class, 'edit'])->name('settings.edit');
+            Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
 
             Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
             Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');

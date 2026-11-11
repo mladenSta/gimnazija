@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Page;
 use App\Models\Post;
 use App\Models\User;
+use App\Support\Settings;
 use App\Support\SiteMenu;
 use Carbon\CarbonImmutable;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -25,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(Settings::class);
     }
 
     /**

@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use App\Services\Content\ContentSaver;
+use App\Services\Social\SocialSharer;
 use App\Support\PaginatedProps;
 use App\Support\UploadSettings;
 use Illuminate\Database\Eloquent\Builder;
@@ -76,6 +77,7 @@ class PostController extends Controller
 
         return Inertia::render('admin/posts/Edit', [
             'post' => null,
+            'social' => [],
             ...$this->formOptions(),
         ]);
     }
@@ -91,7 +93,7 @@ class PostController extends Controller
         return to_route('admin.posts.edit', $post);
     }
 
-    public function edit(Post $post): Response
+    public function edit(Request $request, Post $post, SocialSharer $sharer): Response
     {
         Gate::authorize('update', $post);
 
@@ -99,6 +101,8 @@ class PostController extends Controller
 
         return Inertia::render('admin/posts/Edit', [
             'post' => PostFormResource::make($post)->resolve(),
+            // Share buttons: only networks with credentials, only for admins/editors.
+            'social' => $request->user()?->can('share', $post) ? $sharer->panel($post) : [],
             ...$this->formOptions(),
         ]);
     }

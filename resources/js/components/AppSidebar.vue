@@ -10,6 +10,7 @@ import {
     LayoutGrid,
     ListTree,
     Newspaper,
+    Settings,
     Users,
 } from '@lucide/vue';
 import { computed } from 'vue';
@@ -34,6 +35,7 @@ import { index as mediaIndex } from '@/routes/admin/media';
 import { edit as menuEdit } from '@/routes/admin/menu';
 import { index as pagesIndex } from '@/routes/admin/pages';
 import { index as postsIndex } from '@/routes/admin/posts';
+import { edit as settingsEdit } from '@/routes/admin/settings';
 import { index as usersIndex } from '@/routes/admin/users';
 import type { NavItem } from '@/types';
 
@@ -68,6 +70,12 @@ const allNavItems: NavItem[] = [
         title: 'Kategorije',
         href: categoriesIndex(),
         icon: FolderTree,
+        roles: ['admin'],
+    },
+    {
+        title: 'Podešavanja',
+        href: settingsEdit(),
+        icon: Settings,
         roles: ['admin'],
     },
 ];

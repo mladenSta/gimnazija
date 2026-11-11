@@ -45,6 +45,14 @@ class PostPolicy
         return $this->owns($user, $post);
     }
 
+    /**
+     * Publish on the school's Facebook / Instagram / LinkedIn: admins and editors.
+     */
+    public function share(User $user, Post $post): bool
+    {
+        return $user->canManageAllPosts();
+    }
+
     private function owns(User $user, Post $post): bool
     {
         return $user->canManageAllPosts() || $post->user_id === $user->id;
