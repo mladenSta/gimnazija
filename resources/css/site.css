@@ -2285,3 +2285,100 @@ header.site::before {
     height: 100%;
     border: 0;
 }
+
+/* Testimonials carousel: groups of 3 stacked in one grid cell (the box keeps
+   the height of the tallest group, so nothing below jumps), cross-fading. */
+.testi-pages {
+    display: grid;
+}
+.testi-page {
+    grid-area: 1 / 1;
+    align-content: start;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition:
+        opacity 0.6s ease,
+        transform 0.6s ease,
+        visibility 0s linear 0.6s;
+}
+.testi-page.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+        opacity 0.6s ease,
+        transform 0.6s ease,
+        visibility 0s;
+}
+.carousel-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    padding-bottom: 8px;
+}
+.carousel-dots button {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #cfd6e0;
+    cursor: pointer;
+    transition:
+        width 0.3s ease,
+        background 0.3s ease;
+    /* bigger tap area without a bigger dot */
+    position: relative;
+}
+.carousel-dots button::before {
+    content: '';
+    position: absolute;
+    inset: -8px -4px;
+}
+.carousel-dots button:hover {
+    background: #aab4c3;
+}
+.carousel-dots button.is-active {
+    width: 20px;
+    background: var(--teal);
+}
+.carousel-dots button:focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+    .testi-page,
+    .testi-page.is-active {
+        transition: none;
+        transform: none;
+    }
+}
+
+/* Long messages: 3 lines, "Pročitaj više" opens the rest. */
+.testi blockquote.is-clamped {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+}
+.testi-more {
+    display: inline-block;
+    margin: -10px 0 16px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--teal-600);
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+}
+.testi-more[hidden] {
+    display: none;
+}
+.testi-more:hover {
+    text-decoration: underline;
+}

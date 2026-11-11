@@ -252,3 +252,159 @@
         );
     }
 })();
+
+/* ---------- Testimonials: "Pročitaj više" on long messages ---------- */
+(function () {
+    const buttons = [...document.querySelectorAll('[data-testi-more]')];
+
+    if (!buttons.length) {
+        return;
+    }
+
+    const label = (btn, open) => {
+        btn.setAttribute('aria-expanded', String(open));
+        btn.textContent = open ? 'Prikaži manje' : 'Pročitaj više';
+    };
+
+    // Show the link only where the text is actually cut off.
+    const measure = () =>
+        buttons.forEach((btn) => {
+            const quote = btn.previousElementSibling;
+
+            if (quote.classList.contains('is-clamped')) {
+                btn.hidden = quote.scrollHeight <= quote.clientHeight + 2;
+            }
+        });
+
+    measure();
+    addEventListener('resize', measure, { passive: true });
+    void document.fonts?.ready.then(measure);
+
+    buttons.forEach((btn) =>
+        btn.addEventListener('click', () => {
+            const open =
+                !btn.previousElementSibling.classList.toggle('is-clamped');
+            label(btn, open);
+            btn.dispatchEvent(
+                new CustomEvent('testi:toggle', { bubbles: true }),
+            );
+        }),
+    );
+
+    // Used by the carousel when it moves on.
+    document.addEventListener('testi:collapse', (e) =>
+        e.target.querySelectorAll('[data-testi-more]').forEach((btn) => {
+            btn.previousElementSibling.classList.add('is-clamped');
+            label(btn, false);
+        }),
+    );
+})();
+
+/* ---------- Testimonials carousel (3 at a time) ---------- */
+(function () {
+    const INTERVAL = 8000;
+    const reduce = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+    ).matches;
+
+    document.querySelectorAll('[data-carousel]').forEach((root) => {
+        const pages = [...root.querySelectorAll('[data-carousel-page]')];
+        const dots = [...root.querySelectorAll('[data-carousel-dot]')];
+
+        if (pages.length < 2) {
+            return;
+        }
+
+        let current = 0;
+        let timer = null;
+        let paused = false;
+        let visible = false;
+
+        const expanded = () =>
+            !!root.querySelector('[data-testi-more][aria-expanded="true"]');
+
+        const show = (n) => {
+            root.dispatchEvent(
+                new CustomEvent('testi:collapse', { bubbles: true }),
+            );
+            current = (n + pages.length) % pages.length;
+            pages.forEach((page, i) => {
+                const active = i === current;
+                page.classList.toggle('is-active', active);
+                page.toggleAttribute('inert', !active);
+
+                if (active) {
+                    page.removeAttribute('aria-hidden');
+                } else {
+                    page.setAttribute('aria-hidden', 'true');
+                }
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('is-active', i === current);
+
+                if (i === current) {
+                    dot.setAttribute('aria-current', 'true');
+                } else {
+                    dot.removeAttribute('aria-current');
+                }
+            });
+        };
+
+        const stop = () => {
+            clearInterval(timer);
+            timer = null;
+        };
+
+        // Rotates only while on screen, not hovered/focused, no message
+        // opened, tab visible, and the visitor hasn't asked for reduced motion.
+        const start = () => {
+            stop();
+
+            if (
+                !reduce &&
+                !paused &&
+                !expanded() &&
+                visible &&
+                !document.hidden
+            ) {
+                timer = setInterval(() => show(current + 1), INTERVAL);
+            }
+        };
+
+        dots.forEach((dot, i) =>
+            dot.addEventListener('click', () => {
+                show(i);
+                start(); // full interval after a manual choice
+            }),
+        );
+
+        root.addEventListener('testi:toggle', start);
+        root.addEventListener('mouseenter', () => {
+            paused = true;
+            stop();
+        });
+        root.addEventListener('mouseleave', () => {
+            paused = false;
+            start();
+        });
+        root.addEventListener('focusin', () => {
+            paused = true;
+            stop();
+        });
+        root.addEventListener('focusout', (e) => {
+            if (!root.contains(e.relatedTarget)) {
+                paused = false;
+                start();
+            }
+        });
+        document.addEventListener('visibilitychange', start);
+
+        new IntersectionObserver(
+            ([entry]) => {
+                visible = entry.isIntersecting;
+                start();
+            },
+            { threshold: 0.3 },
+        ).observe(root);
+    });
+})();

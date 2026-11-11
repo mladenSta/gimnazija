@@ -40,7 +40,7 @@ class HomeController extends Controller
             'alumniPhoto' => $top->get(3) ?? $top->first(),
             'posts' => Post::query()->published()->with(['featuredImage', 'categories'])->latest('published_at')->limit(5)->get(),
             'events' => Event::query()->upcoming()->limit(6)->get(),
-            'testimonials' => AlumniTestimonial::query()->published()->with('photo')->limit(3)->get(),
+            'testimonials' => AlumniTestimonial::query()->published()->with('photo')->limit(30)->get(),
             'gallery' => $bottom,
             'filterTags' => $filterTags,
             'social' => $bottom->take(-6),

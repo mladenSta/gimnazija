@@ -203,6 +203,29 @@ class PublicSiteTest extends TestCase
             ->assertDontSee('Naši učenici');
     }
 
+    public function test_home_testimonials_rotate_in_groups_of_three(): void
+    {
+        foreach (range(1, 7) as $i) {
+            AlumniTestimonial::factory()->create(['name' => "Učenik {$i}", 'sort_order' => $i, 'is_published' => true]);
+        }
+        AlumniTestimonial::factory()->create(['name' => 'Sakriven', 'is_published' => false]);
+
+        $html = $this->get('/')->assertOk()->assertDontSee('Sakriven')->getContent();
+
+        $this->assertSame(3, substr_count((string) $html, 'data-carousel-page'));
+        $this->assertSame(3, substr_count((string) $html, 'data-carousel-dot='));
+        $this->assertStringContainsString('aria-label="Poruke 7–7 od 7"', (string) $html);
+        $this->assertSame(2, substr_count((string) $html, 'aria-hidden="true" inert'));
+        $this->assertSame(7, substr_count((string) $html, 'class="testi"'));
+    }
+
+    public function test_home_testimonials_without_dots_when_three_or_fewer(): void
+    {
+        AlumniTestimonial::factory()->count(3)->create(['is_published' => true]);
+
+        $this->get('/')->assertOk()->assertDontSee('data-carousel-dot', false)->assertSee('data-carousel-page', false);
+    }
+
     public function test_home_page_works_with_no_content(): void
     {
         $this->get('/')->assertOk()->assertSee('Dobrodošli')->assertSee('Trenutno nema najava');

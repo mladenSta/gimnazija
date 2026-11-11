@@ -275,29 +275,42 @@
                         <div class="note">„Gimnazija je bila moj drugi dom" ♥</div>
                     </div>
                 @endif
-                <div>
+                @php($testiPages = $testimonials->chunk(3)->values())
+                <div class="testi-carousel" data-carousel>
                     <div class="section-head reveal" style="margin-bottom:30px">
                         <div>
                             <span class="eyebrow">Poruke bivših učenika</span>
                             <h2>Šta kažu oni koji su <em>bili ovdje</em></h2>
                         </div>
+                        @if ($testiPages->count() > 1)
+                            <div class="carousel-dots" aria-label="Poruke bivših učenika">
+                                @foreach ($testiPages as $i => $group)
+                                    <button type="button" @class(['is-active' => $i === 0]) data-carousel-dot="{{ $i }}" aria-label="Poruke {{ $i * 3 + 1 }}–{{ $i * 3 + $group->count() }} od {{ $testimonials->count() }}" @if ($i === 0) aria-current="true" @endif></button>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
-                    <div class="testi-cards">
-                        @foreach ($testimonials as $t)
-                            <div class="testi reveal">
-                                <span class="q" aria-hidden="true">“</span>
-                                <blockquote>{{ $t->quote }}</blockquote>
-                                <div class="who">
-                                    <x-site.img :media="$t->photo" variant="thumb" sizes="50px" alt="" />
-                                    <div>
-                                        <strong>{{ $t->name }}</strong>
-                                        <span>
-                                            @if ($t->generation)Generacija {{ $t->generation }}.@endif
-                                            @if ($t->generation && $t->profession) · @endif
-                                            {{ $t->profession }}
-                                        </span>
+                    <div class="testi-pages reveal">
+                        @foreach ($testiPages as $i => $group)
+                            <div @class(['testi-cards', 'testi-page', 'is-active' => $i === 0]) data-carousel-page @if ($i > 0) aria-hidden="true" inert @endif>
+                                @foreach ($group as $t)
+                                    <div class="testi">
+                                        <span class="q" aria-hidden="true">“</span>
+                                        <blockquote class="is-clamped">{{ $t->quote }}</blockquote>
+                                        <button type="button" class="testi-more" data-testi-more hidden aria-expanded="false">Pročitaj više</button>
+                                        <div class="who">
+                                            <x-site.img :media="$t->photo" variant="thumb" sizes="50px" alt="" />
+                                            <div>
+                                                <strong>{{ $t->name }}</strong>
+                                                <span>
+                                                    @if ($t->generation)Generacija {{ $t->generation }}.@endif
+                                                    @if ($t->generation && $t->profession) · @endif
+                                                    {{ $t->profession }}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                         @endforeach
                     </div>
