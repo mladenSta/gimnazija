@@ -184,9 +184,9 @@
 {{-- ============ IZDVAJAMO + SEKCIJE (hardcoded) ============ --}}
 @php
     $featured = [
-        ['href' => '/koraci2/', 'emoji' => '📖', 'label' => 'Časopis', 'title' => 'Školski časopis „Koraci"', 'text' => 'Naši mladi novinari, pisci i fotografi pripremaju časopis od prve do posljednje stranice.', 'more' => 'Pročitaj', 'image' => 'wp-content/uploads/2020/05/koraci-izdvojeno-600x600.jpg'],
-        ['href' => '/dramska-sekcija/', 'emoji' => '🎭', 'label' => 'Scena', 'title' => 'Dramska sekcija', 'text' => 'Predstave, festivali i aplauzi – scena na kojoj učenici pokazuju hrabrost i talenat.', 'more' => 'Pogledaj', 'image' => 'wp-content/uploads/2020/05/predstava-izdvojeno-600x600.jpg'],
-        ['href' => '/category/takmicenja/', 'emoji' => '🏆', 'label' => 'Takmičenja', 'title' => 'Takmičenja', 'text' => 'Od matematike do Crvenog krsta – rezultati koji nas čine ponosnim iz godine u godinu.', 'more' => 'Rezultati', 'image' => 'wp-content/uploads/2026/05/takmicenja-1-1.jpg'],
+        ['href' => '/koraci2/', 'title' => 'Školski časopis „Koraci"', 'text' => 'Naši mladi novinari, pisci i fotografi pripremaju časopis od prve do posljednje stranice.', 'image' => 'wp-content/uploads/2020/05/koraci-izdvojeno-600x600.jpg'],
+        ['href' => '/dramska-sekcija/', 'title' => 'Dramska sekcija', 'text' => 'Predstave, festivali i aplauzi – scena na kojoj učenici pokazuju hrabrost i talenat.', 'image' => 'wp-content/uploads/2026/04/662045827_122178952634770111_1473116570734573893_n-724x1024.jpg', 'position' => '50% 30%'],
+        ['href' => '/category/takmicenja/', 'title' => 'Takmičenja', 'text' => 'Od matematike do Crvenog krsta – rezultati koji nas čine ponosnim iz godine u godinu.', 'image' => 'wp-content/uploads/2026/05/takmicenja-1-1.jpg'],
     ];
     $clubs = [
         ['href' => '/dramska-sekcija/', 'image' => 'wp-content/uploads/2026/04/667684622_122179618670770111_7068596852317087493_n-150x150.jpg', 'name' => 'Dramska sekcija'],
@@ -210,18 +210,18 @@
             @foreach ($featured as $f)
                 <a href="{{ $f['href'] }}" class="feat reveal">
                     @if (file_exists(public_path($f['image'])))
-                        <div class="img"><img src="{{ asset($f['image']) }}" alt="{{ $f['title'] }}" loading="lazy"><span class="label">{{ $f['label'] }}</span></div>
+                        <div class="img"><img src="/{{ $f['image'] }}" alt="{{ $f['title'] }}" loading="lazy" @isset($f['position']) style="object-position: {{ $f['position'] }}" @endisset></div>
                     @else
-                        <div class="img placeholder" aria-hidden="true">{{ $f['emoji'] }}<span class="label">{{ $f['emoji'] }} {{ $f['label'] }}</span></div>
+                        <div class="img placeholder" aria-hidden="true"></div>
                     @endif
-                    <div class="body"><h3>{{ $f['title'] }}</h3><p>{{ $f['text'] }}</p><span class="more">{{ $f['more'] }} <svg><use href="#i-arrow"/></svg></span></div>
+                    <div class="body"><h3>{{ $f['title'] }}</h3><p>{{ $f['text'] }}</p><span class="more">Pročitaj <svg><use href="#i-arrow"/></svg></span></div>
                 </a>
             @endforeach
         </div>
 
         <div class="clubs reveal">
             @foreach ($clubs as $c)
-                <a href="{{ $c['href'] }}" class="club">@if (file_exists(public_path($c['image'])))<img src="{{ asset($c['image']) }}" alt="" loading="lazy" width="48" height="48">@endif{{ $c['name'] }}</a>
+                <a href="{{ $c['href'] }}" class="club">@if (file_exists(public_path($c['image'])))<img src="/{{ $c['image'] }}" alt="" loading="lazy" width="48" height="48">@endif{{ $c['name'] }}</a>
             @endforeach
         </div>
     </div>
