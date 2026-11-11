@@ -185,8 +185,8 @@
 @php
     $featured = [
         ['href' => '/koraci2/', 'title' => 'Školski časopis „Koraci"', 'text' => 'Naši mladi novinari, pisci i fotografi pripremaju časopis od prve do posljednje stranice.', 'image' => 'wp-content/uploads/2020/05/koraci-izdvojeno-600x600.jpg'],
-        ['href' => '/dramska-sekcija/', 'title' => 'Dramska sekcija', 'text' => 'Predstave, festivali i aplauzi – scena na kojoj učenici pokazuju hrabrost i talenat.', 'image' => 'wp-content/uploads/2026/04/662045827_122178952634770111_1473116570734573893_n-724x1024.jpg', 'position' => '50% 30%'],
-        ['href' => '/category/takmicenja/', 'title' => 'Takmičenja', 'text' => 'Od matematike do Crvenog krsta – rezultati koji nas čine ponosnim iz godine u godinu.', 'image' => 'wp-content/uploads/2026/05/takmicenja-1-1.jpg'],
+        ['href' => '/dramska-sekcija/', 'title' => 'Dramska sekcija', 'text' => 'Predstave, festivali i aplauzi – scena na kojoj učenici pokazuju hrabrost i talenat.', 'image' => 'images/izdvajamo/dramska-ruke.jpg', 'position' => '50% 30%'],
+        ['href' => '/category/takmicenja/', 'title' => 'Takmičenja', 'text' => 'Od matematike do Crvenog krsta – rezultati koji nas čine ponosnim iz godine u godinu.', 'image' => 'wp-content/uploads/2026/05/takmicenja-1-1.jpg', 'position' => '50% 15%'],
     ];
     $clubs = [
         ['href' => '/dramska-sekcija/', 'image' => 'wp-content/uploads/2026/04/667684622_122179618670770111_7068596852317087493_n-150x150.jpg', 'name' => 'Dramska sekcija'],
