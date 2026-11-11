@@ -2263,3 +2263,25 @@ header.site::before {
     border-radius: 12px;
     padding: 3px;
 }
+
+/* YouTube videos below the text (post/page), above the gallery. */
+.post-videos {
+    margin-top: 40px;
+    display: grid;
+    gap: 24px;
+}
+.video-embed {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #000;
+    box-shadow: var(--shadow);
+}
+.video-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}

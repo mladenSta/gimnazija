@@ -180,3 +180,4 @@ Each phase ends with feature tests (policies, routes, validation) passing.
 ## 10. Still open
 
 - Production hosting details: Imagick or GD? Can we run a queue worker / cron? (Not blocking until deploy.)
+- 2026-11-11: Posts and pages have two optional YouTube link fields (`video_url_1`, `video_url_2`). Any normal YouTube link form is accepted (watch, youtu.be, shorts, live, embed); other links are rejected. Shown below the text and above the gallery as privacy-friendly youtube-nocookie embeds (16:9, lazy-loaded).

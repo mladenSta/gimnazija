@@ -333,4 +333,31 @@ class PostTest extends TestCase
                 ->has('upload.recommended.featured')
                 ->has('statuses', 2));
     }
+
+    public function test_post_shows_two_youtube_videos_below_the_text(): void
+    {
+        $author = User::factory()->author()->create();
+
+        $this->actingAs($author)
+            ->post(route('admin.posts.store'), $this->payload([
+                'video_url_1' => 'https://www.youtube.com/watch?v=6ixsPLXRSpY&t=10s',
+                'video_url_2' => 'https://youtu.be/mW7KCrpX1Fk',
+            ]))
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(['6ixsPLXRSpY', 'mW7KCrpX1Fk'], Post::query()->sole()->videoIds());
+
+        $this->get('/dan-otvorenih-vrata/')->assertOk()->assertSeeInOrder([
+            'Pozivamo buduće gimnazijalce.',
+            'youtube-nocookie.com/embed/6ixsPLXRSpY',
+            'youtube-nocookie.com/embed/mW7KCrpX1Fk',
+        ], false);
+    }
+
+    public function test_post_without_videos_has_no_video_section(): void
+    {
+        $this->actingAs(User::factory()->author()->create())->post(route('admin.posts.store'), $this->payload())->assertSessionHasNoErrors();
+
+        $this->get('/dan-otvorenih-vrata/')->assertOk()->assertDontSee('post-videos', false);
+    }
 }

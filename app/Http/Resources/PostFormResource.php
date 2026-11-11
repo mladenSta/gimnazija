@@ -24,6 +24,8 @@ class PostFormResource extends JsonResource
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
             'content' => $this->content,
+            'video_url_1' => $this->video_url_1,
+            'video_url_2' => $this->video_url_2,
             'status' => $this->status->value,
             // For <input type="datetime-local">, in the app timezone.
             'published_at' => $this->published_at?->format('Y-m-d\TH:i'),

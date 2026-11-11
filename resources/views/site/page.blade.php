@@ -21,6 +21,8 @@
             <div class="narrow">
                 <div class="entry-content">{!! $page->content !!}</div>
 
+                <x-site.videos :ids="$page->videoIds()" :title="$page->title" />
+
                 <x-site.post-gallery :images="$page->galleryImages" />
             </div>
         </div>

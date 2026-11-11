@@ -20,6 +20,8 @@ type PostData = {
     slug: string;
     excerpt: string | null;
     content: string | null;
+    video_url_1: string | null;
+    video_url_2: string | null;
     status: 'draft' | 'published';
     published_at: string | null;
     is_scheduled: boolean;
@@ -55,6 +57,8 @@ const form = useForm({
     slug: props.post?.slug ?? '',
     excerpt: props.post?.excerpt ?? '',
     content: props.post?.content ?? '',
+    video_url_1: props.post?.video_url_1 ?? '',
+    video_url_2: props.post?.video_url_2 ?? '',
     status: props.post?.status ?? 'draft',
     published_at: props.post?.published_at ?? '',
     category_ids: props.post?.category_ids ?? ([] as number[]),
@@ -219,6 +223,44 @@ function moveToTrash(): void {
                     <Label>Tekst</Label>
                     <RichEditor v-model="form.content" :upload="upload" />
                     <InputError :message="form.errors.content" />
+                </div>
+
+                <div class="grid gap-3">
+                    <div>
+                        <Label>Video (YouTube)</Label>
+                        <p class="mt-1 text-xs text-muted-foreground">
+                            Zalijepite link sa YouTube-a (npr.
+                            https://www.youtube.com/watch?v=… ili
+                            https://youtu.be/…). Video se prikazuje ispod
+                            teksta, iznad fotografija.
+                        </p>
+                    </div>
+                    <div class="grid gap-2">
+                        <Label for="video_url_1" class="sr-only"
+                            >YouTube video 1</Label
+                        >
+                        <Input
+                            id="video_url_1"
+                            v-model="form.video_url_1"
+                            type="url"
+                            inputmode="url"
+                            placeholder="YouTube link 1"
+                        />
+                        <InputError :message="form.errors.video_url_1" />
+                    </div>
+                    <div class="grid gap-2">
+                        <Label for="video_url_2" class="sr-only"
+                            >YouTube video 2</Label
+                        >
+                        <Input
+                            id="video_url_2"
+                            v-model="form.video_url_2"
+                            type="url"
+                            inputmode="url"
+                            placeholder="YouTube link 2"
+                        />
+                        <InputError :message="form.errors.video_url_2" />
+                    </div>
                 </div>
 
                 <div class="grid gap-2">

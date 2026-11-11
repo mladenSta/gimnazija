@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ContentStatus;
 use App\Models\Concerns\HasMediaAttachments;
+use App\Models\Concerns\HasVideos;
 use App\Models\Concerns\Publishable;
 use Carbon\CarbonImmutable;
 use Database\Factories\PostFactory;
@@ -22,6 +23,8 @@ use Illuminate\Support\Str;
  * @property string $slug
  * @property string|null $excerpt
  * @property string|null $content
+ * @property string|null $video_url_1
+ * @property string|null $video_url_2
  * @property int|null $featured_media_id
  * @property ContentStatus $status
  * @property CarbonImmutable|null $published_at
@@ -34,13 +37,13 @@ use Illuminate\Support\Str;
  * @property-read Category|null $primary_category
  */
 #[Fillable([
-    'user_id', 'title', 'slug', 'excerpt', 'content', 'featured_media_id',
+    'user_id', 'title', 'slug', 'excerpt', 'content', 'video_url_1', 'video_url_2', 'featured_media_id',
     'status', 'published_at', 'meta_title', 'meta_description', 'wp_id',
 ])]
 class Post extends Model
 {
     /** @use HasFactory<PostFactory> */
-    use HasFactory, HasMediaAttachments, Publishable, SoftDeletes;
+    use HasFactory, HasMediaAttachments, HasVideos, Publishable, SoftDeletes;
 
     /**
      * @return array<string, string>

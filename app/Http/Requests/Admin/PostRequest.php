@@ -5,6 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Enums\ContentStatus;
 use App\Models\Post;
 use App\Rules\AvailableSlug;
+use App\Rules\YouTubeUrl;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -32,6 +33,8 @@ class PostRequest extends FormRequest
             'slug' => ['nullable', 'string', 'max:200', new AvailableSlug($post instanceof Post ? $post : null)],
             'excerpt' => ['nullable', 'string', 'max:1000'],
             'content' => ['nullable', 'string', 'max:2000000'],
+            'video_url_1' => ['nullable', 'string', 'max:255', new YouTubeUrl],
+            'video_url_2' => ['nullable', 'string', 'max:255', new YouTubeUrl],
             'status' => ['required', Rule::enum(ContentStatus::class)],
             'published_at' => ['nullable', 'date'],
             'featured_media_id' => ['nullable', 'integer', 'exists:media,id'],
@@ -54,6 +57,8 @@ class PostRequest extends FormRequest
             'slug' => 'link',
             'excerpt' => 'kratak opis',
             'content' => 'tekst',
+            'video_url_1' => 'YouTube video 1',
+            'video_url_2' => 'YouTube video 2',
             'status' => 'status',
             'published_at' => 'datum objave',
             'featured_media_id' => 'naslovna slika',

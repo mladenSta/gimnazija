@@ -38,6 +38,8 @@
             <div class="narrow">
                 <div class="entry-content">{!! $post->content !!}</div>
 
+                <x-site.videos :ids="$post->videoIds()" :title="$post->title" />
+
                 <x-site.post-gallery :images="$post->galleryImages" />
 
                 <footer class="post-footer">

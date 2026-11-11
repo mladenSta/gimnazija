@@ -148,4 +148,38 @@ class PageTest extends TestCase
         $this->actingAs($user)->get(route('admin.pages.index', ['status' => 'trash']))
             ->assertInertia(fn (Assert $p) => $p->has('pages.data', 1)->where('pages.data.0.status', 'trash'));
     }
+
+    public function test_youtube_videos_are_saved_validated_and_shown_below_the_text(): void
+    {
+        $user = User::factory()->author()->create();
+        $image = Media::factory()->create();
+
+        $this->actingAs($user)
+            ->post(route('admin.pages.store'), $this->payload(['video_url_1' => 'https://vimeo.com/1', 'video_url_2' => 'nije link']))
+            ->assertSessionHasErrors(['video_url_1', 'video_url_2']);
+
+        $this->actingAs($user)
+            ->post(route('admin.pages.store'), $this->payload([
+                'video_url_1' => '',
+                'video_url_2' => ' https://youtu.be/mW7KCrpX1Fk ',
+                'gallery_ids' => [$image->id],
+            ]))
+            ->assertSessionHasNoErrors();
+
+        $page = Page::query()->sole();
+        $this->assertNull($page->video_url_1);
+        $this->assertSame('https://youtu.be/mW7KCrpX1Fk', $page->video_url_2);
+        $this->assertSame(['mW7KCrpX1Fk'], $page->videoIds());
+
+        $this->actingAs($user)
+            ->get(route('admin.pages.edit', $page))
+            ->assertInertia(fn (Assert $p) => $p->where('page.video_url_2', 'https://youtu.be/mW7KCrpX1Fk'));
+
+        // Text → video → gallery.
+        $this->get('/istorijat-skole/')->assertOk()->assertSeeInOrder([
+            'Gimnazija je osnovana',
+            'https://www.youtube-nocookie.com/embed/mW7KCrpX1Fk',
+            'post-gallery',
+        ], false);
+    }
 }

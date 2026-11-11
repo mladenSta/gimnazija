@@ -49,6 +49,8 @@ class ContentSaver
                 'title' => $data['title'],
                 'slug' => $slug,
                 'content' => $content,
+                'video_url_1' => filled($data['video_url_1'] ?? null) ? trim((string) $data['video_url_1']) : null,
+                'video_url_2' => filled($data['video_url_2'] ?? null) ? trim((string) $data['video_url_2']) : null,
                 'featured_media_id' => $data['featured_media_id'] ?? null,
                 'status' => $status,
                 'published_at' => $publishedAt,

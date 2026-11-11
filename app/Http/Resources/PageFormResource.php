@@ -23,6 +23,8 @@ class PageFormResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
+            'video_url_1' => $this->video_url_1,
+            'video_url_2' => $this->video_url_2,
             'status' => $this->status->value,
             'published_at' => $this->published_at?->format('Y-m-d\TH:i'),
             'is_scheduled' => $this->isScheduled(),
