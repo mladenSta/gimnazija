@@ -200,6 +200,10 @@ class PublicSiteTest extends TestCase
             ->assertDontSee('Prošli događaj')
             ->assertSee('Najljepše godine.')
             ->assertSee('"@type":"HighSchool"', false)
+            ->assertDontSee('Pratite nas na Facebooku')
+            ->assertSee('aria-label="Instagram"', false)
+            ->assertSee('https://www.instagram.com/gimnazija_doboj/', false)
+            ->assertSee('"sameAs":["https://www.facebook.com/profile.php?id=61573103333031","https://www.instagram.com/gimnazija_doboj/"]', false)
             ->assertDontSee('Naši učenici');
     }
 

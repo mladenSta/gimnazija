@@ -60,7 +60,7 @@ class HomeController extends Controller
                         'addressLocality' => 'Doboj',
                         'addressCountry' => 'BA',
                     ],
-                    'sameAs' => ['https://www.facebook.com/profile.php?id=61573103333031'],
+                    'sameAs' => array_values(config('cms.social')),
                 ],
             ),
         ]);

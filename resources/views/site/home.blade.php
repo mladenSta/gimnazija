@@ -251,7 +251,7 @@
                 @endforeach
             </div>
 
-            <div class="gallery-cta"><a href="https://www.facebook.com/profile.php?id=61573103333031" target="_blank" rel="noopener" class="btn">Još fotografija na Facebooku <svg><use href="#i-arrow"/></svg></a></div>
+            <div class="gallery-cta"><a href="{{ config('cms.social.facebook') }}" target="_blank" rel="noopener" class="btn">Još fotografija na Facebooku <svg><use href="#i-arrow"/></svg></a></div>
         </div>
     </section>
 @endif

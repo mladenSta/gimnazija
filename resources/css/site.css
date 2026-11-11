@@ -179,6 +179,27 @@ h4 {
     height: 15px;
     opacity: 0.8;
 }
+.topbar .socials-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.topbar .socials-top a {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+.topbar .socials-top a:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+.topbar .socials-top svg {
+    width: 16px;
+    height: 16px;
+    opacity: 1;
+}
 
 header.site {
     position: sticky;

@@ -8,7 +8,8 @@
                 </a>
                 <p>Ove godine upisujemo četiri odjeljenja kroz tri smjera: opšti, društveno-jezički i računarsko-informatički. Dobrodošli u našu porodicu!</p>
                 <div class="socials">
-                    <a href="https://www.facebook.com/profile.php?id=61573103333031" target="_blank" rel="noopener" aria-label="Facebook"><svg><use href="#i-fb"/></svg></a>
+                    <a href="{{ config('cms.social.facebook') }}" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg><use href="#i-fb"/></svg></a>
+                    <a href="{{ config('cms.social.instagram') }}" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg><use href="#i-ig"/></svg></a>
                 </div>
             </div>
             <div>

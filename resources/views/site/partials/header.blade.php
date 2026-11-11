@@ -10,7 +10,10 @@
             <span><svg><use href="#i-phone"/></svg><a href="tel:+38753200970">053 200 970</a></span>
             <span><svg><use href="#i-mail"/></svg><a href="mailto:ss38@skolers.org">ss38@skolers.org</a></span>
         </div>
-        <div class="socials-top"><a href="https://www.facebook.com/profile.php?id=61573103333031" target="_blank" rel="noopener">Pratite nas na Facebooku →</a></div>
+        <div class="socials-top">
+            <a href="{{ config('cms.social.facebook') }}" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg><use href="#i-fb"/></svg></a>
+            <a href="{{ config('cms.social.instagram') }}" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg><use href="#i-ig"/></svg></a>
+        </div>
     </div>
 </div>
 
