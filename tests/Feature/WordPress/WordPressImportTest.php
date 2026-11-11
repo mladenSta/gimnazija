@@ -4,6 +4,7 @@ namespace Tests\Feature\WordPress;
 
 use App\Enums\ContentStatus;
 use App\Enums\MenuItemType;
+use App\Models\AlumniTestimonial;
 use App\Models\Category;
 use App\Models\Media;
 use App\Models\MenuItem;
@@ -369,5 +370,40 @@ class WordPressImportTest extends TestCase
         $this->artisan('wp:import-pages')->assertSuccessful();
         $this->assertSame(3, Page::query()->count());
         $this->assertSame(1, Media::query()->count());
+    }
+
+    public function test_testimonials_are_imported_newest_first_with_title_and_photo(): void
+    {
+        $this->image(950, '2020/05/Vladimir.jpg');
+        $insert = function (int $id, string $name, string $date, string $text, string $designation, ?int $photo = null) {
+            DB::connection('wordpress')->table('posts')->insert([
+                'ID' => $id, 'post_type' => 'ac_testimonial', 'post_status' => 'publish', 'post_title' => $name,
+                'post_name' => (string) $id, 'post_content' => $text, 'post_excerpt' => '', 'post_date' => $date,
+            ]);
+            DB::connection('wordpress')->table('postmeta')->insert(['post_id' => $id, 'meta_key' => 'ac_testimonial_designation', 'meta_value' => $designation]);
+            if ($photo) {
+                DB::connection('wordpress')->table('postmeta')->insert(['post_id' => $id, 'meta_key' => '_thumbnail_id', 'meta_value' => (string) $photo]);
+            }
+        };
+        $insert(20, 'Nevena Simić', '2020-04-25 10:00:00', "Nijedna druga škola…\n\n<strong>Postanite</strong> ono što želite!", 'Master pravnih nauka');
+        $insert(21, 'Vladimir Jovanović', '2020-05-07 13:55:00', 'Gimnazija nije tu da ti ostvari snove &#8211; već da ti pomogne.', 'Senior Android programer, FlixBus', 950);
+        DB::connection('wordpress')->table('posts')->insert(['ID' => 22, 'post_type' => 'ac_testimonial', 'post_status' => 'draft', 'post_title' => 'Nacrt', 'post_name' => '22', 'post_content' => 'x', 'post_excerpt' => '']);
+
+        $this->artisan('wp:import-testimonials')->assertSuccessful();
+
+        $all = AlumniTestimonial::query()->published()->with('photo')->get();
+        $this->assertSame(['Vladimir Jovanović', 'Nevena Simić'], $all->pluck('name')->all());
+        $this->assertSame('Gimnazija nije tu da ti ostvari snove – već da ti pomogne.', $all[0]->quote);
+        $this->assertSame('Senior Android programer, FlixBus', $all[0]->profession);
+        $this->assertSame('2020/05/Vladimir.jpg', $all[0]->photo?->path);
+        $this->assertSame('Nijedna druga škola… Postanite ono što želite!', $all[1]->quote);
+        $this->assertNull($all[1]->photo_media_id);
+
+        // Order changed in the admin is kept on a second run; nothing duplicated.
+        $all[1]->update(['sort_order' => 0]);
+        $this->artisan('wp:import-testimonials')->assertSuccessful();
+        $this->assertSame(['Nevena Simić', 'Vladimir Jovanović'], AlumniTestimonial::query()->published()->pluck('name')->all());
+
+        $this->get('/')->assertOk()->assertSee('Senior Android programer, FlixBus');
     }
 }

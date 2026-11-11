@@ -4,6 +4,7 @@ namespace App\Services\WordPress;
 
 use App\Enums\ContentStatus;
 use App\Enums\MenuItemType;
+use App\Models\AlumniTestimonial;
 use App\Models\Category;
 use App\Models\Media;
 use App\Models\MenuItem;
@@ -297,6 +298,61 @@ class WordPressImporter
         $this->report[$isNew ? 'pages_created' : 'pages_updated']++;
 
         return $page;
+    }
+
+    /**
+     * Alumni testimonials (theme post type "ac_testimonial"): name, title
+     * ("designation"), text and photo. Newest first, like the old home page.
+     * Matched by name, so running again updates instead of duplicating;
+     * the order and visibility set in the admin are kept.
+     *
+     * @return list<AlumniTestimonial>
+     */
+    public function importTestimonials(): array
+    {
+        $rows = $this->wp->table('posts')
+            ->where('post_type', 'ac_testimonial')
+            ->where('post_status', 'publish')
+            ->orderByDesc('post_date')
+            ->get(['ID', 'post_title', 'post_content']);
+
+        $meta = $this->wp->table('postmeta')
+            ->whereIn('post_id', $rows->pluck('ID'))
+            ->whereIn('meta_key', ['_thumbnail_id', 'ac_testimonial_designation'])
+            ->get(['post_id', 'meta_key', 'meta_value'])
+            ->groupBy('post_id');
+
+        $text = fn (string $value) => trim((string) preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags($value), ENT_QUOTES | ENT_HTML5)));
+
+        $imported = [];
+        foreach ($rows->values() as $position => $row) {
+            $m = ($meta[$row->ID] ?? collect())->pluck('meta_value', 'meta_key');
+            $name = $text((string) $row->post_title);
+            $quote = $text((string) $row->post_content);
+
+            if ($name === '' || $quote === '') {
+                continue;
+            }
+
+            $photo = (int) ($m['_thumbnail_id'] ?? 0) ? $this->media->media((int) $m['_thumbnail_id']) : null;
+            $profession = $text((string) ($m['ac_testimonial_designation'] ?? ''));
+
+            $testimonial = AlumniTestimonial::query()->where('name', $name)->first() ?? new AlumniTestimonial([
+                'sort_order' => $position + 1,
+                'is_published' => true,
+            ]);
+
+            $testimonial->fill([
+                'name' => $name,
+                'profession' => $profession !== '' ? mb_substr($profession, 0, 255) : null,
+                'quote' => $quote,
+                'photo_media_id' => $photo->id ?? $testimonial->photo_media_id,
+            ])->save();
+
+            $imported[] = $testimonial;
+        }
+
+        return $imported;
     }
 
     /**

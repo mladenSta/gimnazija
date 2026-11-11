@@ -181,3 +181,4 @@ Each phase ends with feature tests (policies, routes, validation) passing.
 
 - Production hosting details: Imagick or GD? Can we run a queue worker / cron? (Not blocking until deploy.)
 - 2026-11-11: Posts and pages have two optional YouTube link fields (`video_url_1`, `video_url_2`). Any normal YouTube link form is accepted (watch, youtu.be, shorts, live, embed); other links are rejected. Shown below the text and above the gallery as privacy-friendly youtube-nocookie embeds (16:9, lazy-loaded).
+- 2026-11-11: Alumni testimonials imported (`php artisan wp:import-testimonials`, re-runnable, matched by name): all 12 from the old site with name, title ("designation"), text and photo, in the old home-page order (newest first). The home page shows the first 3 by order; the rest are in the admin (Bivši učenici) and can be reordered there.
