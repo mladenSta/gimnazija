@@ -34,6 +34,25 @@ class Gallery extends Model
 
     public const HOME_BOTTOM = 'home-bottom';
 
+    public const HOME_ABOUT = 'home-about';
+
+    /**
+     * Where each system gallery appears (shown in the admin).
+     *
+     * @var array<string, string>
+     */
+    public const USAGE = [
+        self::HOME_SLIDER => 'Veliki slajder na vrhu početne stranice.',
+        self::HOME_TOP => 'Početna: 3 male fotografije pored slajdera (prve 3), traka „jedan dan u našoj gimnaziji" (sve) i velika fotografija pored poruka bivših učenika (4.).',
+        self::HOME_ABOUT => 'Početna: kolaž u odjeljku „Tradicija koja gleda naprijed" (prve 3).',
+        self::HOME_BOTTOM => 'Početna: galerija „Uspomene u kadru" sa filterima po oznakama.',
+    ];
+
+    public function usage(): ?string
+    {
+        return $this->is_system ? (self::USAGE[$this->slug] ?? null) : null;
+    }
+
     protected static function booted(): void
     {
         static::deleting(function (Gallery $gallery): void {

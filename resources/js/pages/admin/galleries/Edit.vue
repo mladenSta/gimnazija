@@ -44,6 +44,7 @@ const props = defineProps<{
         slug: string;
         type: 'slider' | 'standard';
         is_system: boolean;
+        usage: string | null;
         can_delete: boolean;
         items: Omit<Item, 'key'>[];
     };
@@ -220,6 +221,14 @@ const nullable = (v: string | number) =>
                 >
             </div>
         </div>
+
+        <p
+            v-if="gallery.usage"
+            class="max-w-2xl rounded-md border bg-muted/40 px-3 py-2 text-sm text-muted-foreground"
+        >
+            <span class="font-medium text-foreground">Gdje se prikazuje:</span>
+            {{ gallery.usage }}
+        </p>
 
         <div class="grid max-w-md gap-2">
             <Label for="gallery-name">Naziv</Label>

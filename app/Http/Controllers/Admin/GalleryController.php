@@ -38,6 +38,7 @@ class GalleryController extends Controller
                 'type' => $g->type->value,
                 'type_label' => $g->type->label(),
                 'is_system' => $g->is_system,
+                'usage' => $g->usage(),
                 'items_count' => $g->items_count,
                 'cover_url' => $g->items->first()?->media->url('thumb'),
                 'can_delete' => $request->user()?->can('delete', $g) ?? false,
@@ -85,6 +86,7 @@ class GalleryController extends Controller
                 'slug' => $gallery->slug,
                 'type' => $gallery->type->value,
                 'is_system' => $gallery->is_system,
+                'usage' => $gallery->usage(),
                 'can_delete' => $request->user()?->can('delete', $gallery) ?? false,
                 'items' => $gallery->items->map(fn (GalleryItem $item) => [
                     'id' => $item->id,

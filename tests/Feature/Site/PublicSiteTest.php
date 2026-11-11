@@ -203,6 +203,31 @@ class PublicSiteTest extends TestCase
             ->assertDontSee('Naši učenici');
     }
 
+    public function test_about_collage_uses_its_own_gallery(): void
+    {
+        foreach (range(1, 4) as $i) {
+            GalleryItem::factory()->for(Gallery::findBySlug(Gallery::HOME_TOP))->create(['caption' => "Gore {$i}", 'sort_order' => $i]);
+            GalleryItem::factory()->for(Gallery::findBySlug(Gallery::HOME_ABOUT))->create(['caption' => "O školi {$i}", 'sort_order' => $i]);
+        }
+
+        $html = (string) $this->get('/')->assertOk()->getContent();
+        $start = (int) strpos($html, 'about-collage');
+        $collage = substr($html, $start, (int) strpos($html, 'class="badge"', $start) - $start);
+
+        $this->assertStringContainsString('O školi 1', $collage);
+        $this->assertStringContainsString('O školi 3', $collage);
+        $this->assertStringNotContainsString('O školi 4', $collage);
+        $this->assertStringNotContainsString('Gore', $collage);
+        $this->assertStringContainsString('Gore 1', $html); // "Početna – gore" still feeds the ribbon
+    }
+
+    public function test_about_section_without_photos_when_its_gallery_is_empty(): void
+    {
+        GalleryItem::factory()->for(Gallery::findBySlug(Gallery::HOME_TOP))->create();
+
+        $this->get('/')->assertOk()->assertDontSee('about-collage', false)->assertSee('Tradicija koja');
+    }
+
     public function test_home_testimonials_rotate_in_groups_of_three(): void
     {
         foreach (range(1, 7) as $i) {

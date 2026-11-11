@@ -24,6 +24,7 @@ type GalleryRow = {
     type: 'slider' | 'standard';
     type_label: string;
     is_system: boolean;
+    usage: string | null;
     items_count: number;
     cover_url: string | null;
 };
@@ -89,6 +90,12 @@ function submit(): void {
                         </p>
                         <p class="text-xs text-muted-foreground">
                             {{ g.type_label }} · {{ g.items_count }} fotografija
+                        </p>
+                        <p
+                            v-if="g.usage"
+                            class="text-xs leading-snug text-muted-foreground"
+                        >
+                            {{ g.usage }}
                         </p>
                     </div>
                 </Link>

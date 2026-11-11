@@ -40,9 +40,12 @@ class GalleryTest extends TestCase
             $this->actingAs($user)->get(route('admin.galleries.index'))
                 ->assertOk()
                 ->assertInertia(fn (Assert $p) => $p->component('admin/galleries/Index')
-                    ->has('galleries', 4)
+                    ->has('galleries', 5)
                     ->where('galleries.0.is_system', true)
-                    ->where('galleries.3.name', 'Aaa custom'));
+                    ->where('galleries.4.name', 'Aaa custom')
+                    ->where('galleries.4.usage', null)
+                    ->where('galleries.2.name', 'Početna – o školi')
+                    ->where('galleries.2.usage', Gallery::USAGE[Gallery::HOME_ABOUT]));
         }
     }
 

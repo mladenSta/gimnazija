@@ -15,12 +15,13 @@ class GalleryTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_seeder_creates_the_three_system_galleries_idempotently(): void
+    public function test_seeder_creates_the_four_system_galleries_idempotently(): void
     {
         $this->seed(GallerySeeder::class);
         $this->seed(GallerySeeder::class);
 
-        $this->assertSame(3, Gallery::query()->count());
+        $this->assertSame(4, Gallery::query()->count());
+        $this->assertSame('Početna – o školi', Gallery::findBySlug(Gallery::HOME_ABOUT)?->name);
         $this->assertSame(GalleryType::Slider, Gallery::findBySlug(Gallery::HOME_SLIDER)?->type);
         $this->assertSame(GalleryType::Standard, Gallery::findBySlug(Gallery::HOME_BOTTOM)?->type);
         $this->assertTrue(Gallery::query()->where('is_system', false)->doesntExist());

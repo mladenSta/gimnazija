@@ -24,6 +24,7 @@ class HomeController extends Controller
 
         $slides = $this->items(Gallery::HOME_SLIDER);
         $top = $this->items(Gallery::HOME_TOP);
+        $about = $this->items(Gallery::HOME_ABOUT);
         $bottom = $this->items(Gallery::HOME_BOTTOM, withTags: true);
 
         $filterTags = $bottom->flatMap(fn (GalleryItem $item) => $item->tags)
@@ -36,7 +37,7 @@ class HomeController extends Controller
         return response()->view('site.home', [
             'slides' => $slides,
             'ribbon' => $top,
-            'about' => $top->take(3),
+            'about' => $about->take(3),
             'alumniPhoto' => $top->get(3) ?? $top->first(),
             'posts' => Post::query()->published()->with(['featuredImage', 'categories'])->latest('published_at')->limit(5)->get(),
             'events' => Event::query()->upcoming()->limit(6)->get(),
