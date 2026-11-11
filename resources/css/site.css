@@ -1427,52 +1427,6 @@ header.site {
 /* =========================================================
    INSTAGRAM-ish strip + CTA
    ========================================================= */
-.social-strip {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-}
-.social-strip a {
-    position: relative;
-    aspect-ratio: 1;
-    overflow: hidden;
-}
-.social-strip img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: 0.5s;
-}
-.social-strip a::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--teal);
-    opacity: 0;
-    transition: 0.3s;
-}
-.social-strip a:hover::after {
-    opacity: 0.55;
-}
-.social-strip a:hover img {
-    transform: scale(1.1);
-}
-.social-strip .fb {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: grid;
-    place-items: center;
-    opacity: 0;
-    transition: 0.3s;
-    color: #fff;
-}
-.social-strip a:hover .fb {
-    opacity: 1;
-}
-.social-strip .fb svg {
-    width: 34px;
-    height: 34px;
-}
 
 /* =========================================================
    FOOTER
@@ -1481,17 +1435,7 @@ header.site {
     background: var(--plum);
     color: #d9c8e6;
     position: relative;
-    padding-top: 90px;
-}
-.site-footer::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -1px;
-    height: 40px;
-    background: #fff;
-    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    padding-top: 70px;
 }
 .foot-grid {
     display: grid;
@@ -1700,9 +1644,6 @@ header.site {
     }
     .testi:nth-child(2) {
         margin-left: 0;
-    }
-    .social-strip {
-        grid-template-columns: repeat(3, 1fr);
     }
     .topbar .info span:nth-child(3) {
         display: none;

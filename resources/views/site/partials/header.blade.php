@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<header class="site" id="top">
+<header class="site">
     <div class="container nav">
         <a href="/" class="brand" aria-label="Početna">
             @include('site.partials.logo')

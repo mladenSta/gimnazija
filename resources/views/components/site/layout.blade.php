@@ -39,7 +39,7 @@
 
     @vite(['resources/css/site.css', 'resources/js/site.js'])
 </head>
-<body>
+<body id="top">
     @include('site.partials.icons')
 
     @if ($isPreview)

@@ -351,16 +351,4 @@
     </div>
 </section>
 
-{{-- ============ SOCIAL STRIP (last 6 photos of Početna – dolje) ============ --}}
-@if ($social->count() === 6)
-    <section class="social-strip" aria-label="Facebook">
-        @foreach ($social as $item)
-            <a href="https://www.facebook.com/profile.php?id=61573103333031" target="_blank" rel="noopener" aria-label="Facebook stranica škole">
-                <x-site.img :media="$item->media" variant="thumb" sizes="(max-width: 860px) 33vw, 17vw" alt="" :position="$item->object_position" />
-                <span class="fb"><svg><use href="#i-fb"/></svg></span>
-            </a>
-        @endforeach
-    </section>
-@endif
-
 </x-site.layout>

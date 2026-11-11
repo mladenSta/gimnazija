@@ -43,7 +43,6 @@ class HomeController extends Controller
             'testimonials' => AlumniTestimonial::query()->published()->with('photo')->limit(30)->get(),
             'gallery' => $bottom,
             'filterTags' => $filterTags,
-            'social' => $bottom->take(-6),
             'seo' => Seo::make(
                 image: $slides->first()?->media->url('large'),
                 jsonLd: [

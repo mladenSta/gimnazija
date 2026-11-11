@@ -145,7 +145,7 @@ Home page sections and data source:
 | Galerija (masonry + tag filters + lightbox) | Home bottom gallery, filter buttons = tags used in it |
 | Poruke bivših učenika | Alumni testimonials |
 | Najave | Upcoming events |
-| Social strip | Last 6 photos of the Home bottom gallery (shown only when there are 6+) |
+| ~~Social strip~~ | Removed 2026-11-11 (photo row above the footer) |
 
 Other templates: post (title, date, featured image, content, gallery + lightbox, category link, breadcrumb, latest news sidebar), page (same, no category), news/category archive (paginated), search results, 404.
 
