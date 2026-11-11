@@ -43,7 +43,7 @@ class Gallery extends Model
      */
     public const USAGE = [
         self::HOME_SLIDER => 'Veliki slajder na vrhu početne stranice.',
-        self::HOME_TOP => 'Početna: 3 male fotografije pored slajdera (prve 3), traka „jedan dan u našoj gimnaziji" (sve) i velika fotografija pored poruka bivših učenika (4.).',
+        self::HOME_TOP => 'Početna: traka „jedan dan u našoj gimnaziji" (sve) i velika fotografija pored poruka bivših učenika (4.).',
         self::HOME_ABOUT => 'Početna: kolaž u odjeljku „Tradicija koja gleda naprijed" (prve 3).',
         self::HOME_BOTTOM => 'Početna: galerija „Uspomene u kadru" sa filterima po oznakama.',
     ];

@@ -493,24 +493,6 @@ header.site {
     width: 20px;
     height: 20px;
 }
-.slider-thumbs {
-    position: absolute;
-    right: 40px;
-    top: 40px;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.slider-thumbs img {
-    width: 86px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 12px;
-    border: 3px solid #fff;
-    box-shadow: var(--shadow);
-    transform: rotate(var(--r, 0deg));
-}
 
 /* floating info card overlapping slider */
 .hero-cards {
@@ -1615,9 +1597,6 @@ header.site {
     }
     .foot-grid {
         grid-template-columns: 1fr 1fr;
-    }
-    .slider-thumbs {
-        display: none;
     }
 }
 @media (max-width: 860px) {

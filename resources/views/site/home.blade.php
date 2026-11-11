@@ -38,14 +38,6 @@
                 </div>
             @endforelse
 
-            @if ($ribbon->count() >= 3)
-                <div class="slider-thumbs" aria-hidden="true">
-                    @foreach ($ribbon->take(3) as $i => $thumb)
-                        <x-site.img :media="$thumb->media" variant="thumb" sizes="86px" alt="" :position="$thumb->object_position" style="--r:{{ [4, -3, 2][$i] }}deg" />
-                    @endforeach
-                </div>
-            @endif
-
             <div class="slider-ui">
                 <button class="arrow" id="prev" type="button" aria-label="Prethodni"><svg><use href="#i-left"/></svg></button>
                 <div class="dots" id="dots"></div>
