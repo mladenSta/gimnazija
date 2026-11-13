@@ -69,7 +69,7 @@
                 @endforeach
             @endforeach
         </div>
-        <p class="ribbon-caption">~ jedan dan u našoj gimnaziji ~</p>
+        <p class="ribbon-caption">~ Vannastavne aktivnosti ~</p>
     </section>
 @endif
 
@@ -79,8 +79,9 @@
         <div class="enroll-box reveal">
             <div>
                 <span class="eyebrow">Upis 2026.</span>
-                <h2>Tvoja priča počinje ovdje.</h2>
-                <p>Gimnazija „Jovan Dučić" ove godine upisuje četiri odjeljenja kroz tri smjera. Dođi na Dan otvorenih vrata, upoznaj profesore, učenike i prostor u kom ćeš provesti četiri najljepše godine.</p>
+                <h2>3 smjera. 4 odjeljenja.</h2>
+                <p>JU Gimnazija ,,Jovan Dučić” Doboj ove godine upisuje četiri odjeljenja. Učenici mogu izabrati jedan od tri ponuđena smjera: opšti, društveno-jezički i računarsko-informatički.
+                    Pozivamo učenike i roditelje da nam ukažu svoje povjerenje.</p>
                 <a href="/upis-2020/" class="btn btn-white">Kako se upisati <svg><use href="#i-arrow"/></svg></a>
             </div>
             <div class="tracks">
@@ -152,12 +153,12 @@
             <div class="about-text reveal">
                 <span class="eyebrow">O nama</span>
                 <h2>Tradicija koja <em>gleda naprijed</em></h2>
-                <p>Gimnazija „Jovan Dučić" je škola sa najdužom vaspitno-obrazovnom tradicijom u Doboju. Generacije učenika su ovdje stekle znanje, prijatelje za cijeli život i hrabrost da sanjaju veliko. Danas spajamo to nasljeđe sa savremenom nastavom, digitalnim učionicama i bogatim vannastavnim životom.</p>
+                <p>Gimnazija „Jovan Dučić" je škola sa najdužom vaspitno-obrazovnom tradicijom u Doboju. Generacije učenika su ovdje stekle znanje, prijatelje za cijeli život i hrabrost da sanjaju velike snove. Danas spajamo to nasljeđe sa savremenom nastavom, modernom opremom i bogatim vannastavnim životom.</p>
                 <div class="about-links">
                     <a href="/istorijat-skole/"><i><svg><use href="#i-history"/></svg></i>Istorijat škole</a>
                     <a href="/misija-i-vizija/"><i><svg><use href="#i-target"/></svg></i>Misija i vizija</a>
                     <a href="/o-jovanu-ducicu/"><i><svg><use href="#i-feather"/></svg></i>O Jovanu Dučiću</a>
-                    <a href="/category/racunarski-smjer/"><i><svg><use href="#i-code"/></svg></i>Računarski smjer</a>
+                    <a href="/koraci2/"><i><svg><use href="#i-book"/></svg></i>Koraci</a>
                 </div>
                 <a href="/istorijat-skole/" class="btn btn-primary">Saznajte više <svg><use href="#i-arrow"/></svg></a>
             </div>
@@ -165,10 +166,10 @@
 
         {{-- TODO: replace placeholder numbers with real ones --}}
         <div class="stats reveal">
-            <div class="stat"><strong data-count="500">500+</strong><span>učenika</span></div>
-            <div class="stat"><strong data-count="50">50+</strong><span>profesora</span></div>
+            <div class="stat"><strong data-count="80">80+</strong><span>godina tradicije</span></div>
+            <div class="stat"><strong data-count="10">10+</strong><span>sekcija</span></div>
             <div class="stat"><strong data-count="3">3</strong><span>smjera</span></div>
-            <div class="stat"><strong data-count="10">10+</strong><span>sekcija i klubova</span></div>
+            <div class="stat"><strong data-count="10">10+</strong><span>kabineta</span></div>
         </div>
     </div>
 </section>
@@ -176,9 +177,9 @@
 {{-- ============ IZDVAJAMO + SEKCIJE (hardcoded) ============ --}}
 @php
     $featured = [
-        ['href' => '/koraci2/', 'title' => 'Školski časopis „Koraci"', 'text' => 'Naši mladi novinari, pisci i fotografi pripremaju časopis od prve do posljednje stranice.', 'image' => 'wp-content/uploads/2020/05/koraci-izdvojeno-600x600.jpg'],
+        ['href' => '/koraci2/', 'title' => 'Školski časopis „Koraci"', 'text' => 'Naši mladi novinari, pisci i fotografi pripremaju časopis sa višedecenijskom tradicijom', 'image' => 'wp-content/uploads/2020/05/koraci-izdvojeno-600x600.jpg'],
         ['href' => '/dramska-sekcija/', 'title' => 'Dramska sekcija', 'text' => 'Predstave, festivali i aplauzi – scena na kojoj učenici pokazuju hrabrost i talenat.', 'image' => 'images/izdvajamo/dramska-ruke.jpg', 'position' => '50% 30%'],
-        ['href' => '/category/takmicenja/', 'title' => 'Takmičenja', 'text' => 'Od matematike do Crvenog krsta – rezultati koji nas čine ponosnim iz godine u godinu.', 'image' => 'wp-content/uploads/2026/05/takmicenja-1-1.jpg', 'position' => '50% 15%'],
+        ['href' => '/category/takmicenja/', 'title' => 'Takmičenja', 'text' => 'Od fizike do odbojke – rezultati koji nas čine ponosnim iz godine u godinu.', 'image' => 'wp-content/uploads/2026/05/takmicenja-1-1.jpg', 'position' => '50% 15%'],
     ];
     $clubs = [
         ['href' => '/dramska-sekcija/', 'image' => 'wp-content/uploads/2026/04/667684622_122179618670770111_7068596852317087493_n-150x150.jpg', 'name' => 'Dramska sekcija'],
@@ -195,7 +196,7 @@
                 <span class="eyebrow">Izdvajamo</span>
                 <h2>Život van <em>klupe</em></h2>
             </div>
-            <p>Škola nije samo nastava. Ovo su mjesta gdje naši učenici otkrivaju talente, stvaraju i rastu zajedno.</p>
+            <p>Škola nije samo nastava. To je mjesto gdje naši učenici otkrivaju talente, stvaraju i rastu zajedno.</p>
         </div>
 
         <div class="feat-grid">
@@ -228,7 +229,7 @@
                     <span class="eyebrow">Galerija</span>
                     <h2>Uspomene u <em>kadru</em></h2>
                 </div>
-                <p>Ekskurzije, priredbe, takmičenja, maturska veče i obični, lijepi školski dani – kliknite na fotografiju da je uvećate.</p>
+                <p>Ekskurzije, priredbe, takmičenja, matursko veče i obični školski dani – kliknite na fotografiju da je uvećate.</p>
             </div>
 
             @if ($filterTags->isNotEmpty())
@@ -264,7 +265,7 @@
                 @if ($alumniPhoto)
                     <div class="testi-photo reveal">
                         <x-site.img :media="$alumniPhoto->media" variant="large" sizes="(max-width: 860px) 100vw, 520px" alt="" :position="$alumniPhoto->object_position" />
-                        <div class="note">„Gimnazija je bila moj drugi dom" ♥</div>
+                        <div class="note">„Našu gimnaziju ne čine samo zidovi i lokacija, već ljudi." ♥</div>
                     </div>
                 @endif
                 @php($testiPages = $testimonials->chunk(3)->values())
@@ -272,7 +273,7 @@
                     <div class="section-head reveal" style="margin-bottom:30px">
                         <div>
                             <span class="eyebrow">Poruke bivših učenika</span>
-                            <h2>Šta kažu oni koji su <em>bili ovdje</em></h2>
+                            <h2>Šta kažu naši <em>bivši učenici</em></h2>
                         </div>
                         @if ($testiPages->count() > 1)
                             <div class="carousel-dots" aria-label="Poruke bivših učenika">
