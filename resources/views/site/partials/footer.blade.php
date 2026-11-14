@@ -6,7 +6,7 @@
                     @include('site.partials.logo', ['inverse' => true])
                     <span class="brand-text"><strong>Gimnazija „Jovan Dučić"</strong><small>Doboj</small></span>
                 </a>
-                <p>Ove godine upisujemo četiri odjeljenja kroz tri smjera: opšti, društveno-jezički i računarsko-informatički. Dobrodošli u našu porodicu!</p>
+                <p>"Nikad čovjek ne može da kaže toliko mudrosti, koliko može da prećuti ludosti". Jovan Dučić</p>
                 <div class="socials">
                     <a href="{{ config('cms.social.facebook') }}" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg><use href="#i-fb"/></svg></a>
                     <a href="{{ config('cms.social.instagram') }}" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg><use href="#i-ig"/></svg></a>

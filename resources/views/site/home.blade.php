@@ -69,7 +69,7 @@
                 @endforeach
             @endforeach
         </div>
-        <p class="ribbon-caption">~ Vannastavne aktivnosti ~</p>
+        <p class="ribbon-caption">~ Obrazovanje je najmoćnije oružje koje možete upotrijebiti da promijenite svijet. ~ Nelson Mandela</p>
     </section>
 @endif
 
@@ -99,7 +99,7 @@
         <div class="section-head reveal">
             <div>
                 <span class="eyebrow">Vijesti</span>
-                <h2>Šta je <em>novo</em> u školi</h2>
+                <h2>Šta je <em>novo</em> u školi?</h2>
             </div>
             <a href="/vijesti/" class="btn btn-outline">Sve vijesti <svg><use href="#i-arrow"/></svg></a>
         </div>
@@ -177,7 +177,7 @@
 {{-- ============ IZDVAJAMO + SEKCIJE (hardcoded) ============ --}}
 @php
     $featured = [
-        ['href' => '/koraci2/', 'title' => 'Školski časopis „Koraci"', 'text' => 'Naši mladi novinari, pisci i fotografi pripremaju časopis sa višedecenijskom tradicijom', 'image' => 'wp-content/uploads/2020/05/koraci-izdvojeno-600x600.jpg'],
+        ['href' => '/koraci2/', 'title' => 'Školski časopis „Koraci"', 'text' => 'Naši mladi novinari, pisci i fotografi pripremaju časopis sa višedecenijskom tradicijom.', 'image' => 'wp-content/uploads/2020/05/koraci-izdvojeno-600x600.jpg'],
         ['href' => '/dramska-sekcija/', 'title' => 'Dramska sekcija', 'text' => 'Predstave, festivali i aplauzi – scena na kojoj učenici pokazuju hrabrost i talenat.', 'image' => 'images/izdvajamo/dramska-ruke.jpg', 'position' => '50% 30%'],
         ['href' => '/category/takmicenja/', 'title' => 'Takmičenja', 'text' => 'Od fizike do odbojke – rezultati koji nas čine ponosnim iz godine u godinu.', 'image' => 'wp-content/uploads/2026/05/takmicenja-1-1.jpg', 'position' => '50% 15%'],
     ];
@@ -194,7 +194,7 @@
         <div class="section-head reveal">
             <div>
                 <span class="eyebrow">Izdvajamo</span>
-                <h2>Život van <em>klupe</em></h2>
+                <h2><em>Vannastavne</em> aktivnosti</h2>
             </div>
             <p>Škola nije samo nastava. To je mjesto gdje naši učenici otkrivaju talente, stvaraju i rastu zajedno.</p>
         </div>
