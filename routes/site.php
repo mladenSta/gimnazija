@@ -4,6 +4,7 @@ use App\Http\Controllers\Site\ArchiveController;
 use App\Http\Controllers\Site\ContentController;
 use App\Http\Controllers\Site\FeedController;
 use App\Http\Controllers\Site\HomeController;
+use App\Http\Middleware\CountVisit;
 use App\Http\Middleware\EnsureTrailingSlash;
 use App\Support\RedirectResolver;
 use App\Support\ReservedSlugs;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 $slug = '(?!(?:'.implode('|', array_map('preg_quote', ReservedSlugs::LIST)).')$)[a-z0-9%][a-z0-9%\-]*';
 
-Route::middleware(EnsureTrailingSlash::class)->group(function () use ($slug) {
+Route::middleware([EnsureTrailingSlash::class, CountVisit::class])->group(function () use ($slug) {
     Route::get('/', HomeController::class)->name('home');
 
     Route::get('vijesti/', [ArchiveController::class, 'news'])->name('news');

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AlumniTestimonialController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\MediaController;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
-    Route::inertia('/', 'Dashboard')->name('dashboard');
+    Route::get('/', DashboardController::class)->name('dashboard');
 
     Route::name('admin.')->group(function () {
         // Media library (all roles)
